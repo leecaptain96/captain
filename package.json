@@ -1,0 +1,17 @@
+{
+  "name": "li-jiamin-director-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:vendor": "esbuild src/gsap-entry.js --bundle --minify --format=esm --target=es2020 --outfile=assets/vendor/gsap-bundle.min.js",
+    "dev": "node server.mjs",
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "gsap": "^3.13.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.5"
+  }
+}
