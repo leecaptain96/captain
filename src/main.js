@@ -77,6 +77,21 @@ function bindVideoOverlay(container) {
   update();
 }
 
+function initExclusiveMediaPlayback() {
+  document.addEventListener(
+    "play",
+    (event) => {
+      const activeMedia = event.target;
+      if (!(activeMedia instanceof HTMLMediaElement) || activeMedia.classList.contains("hero-video")) return;
+
+      $$("audio, video").forEach((media) => {
+        if (media !== activeMedia && !media.paused) media.pause();
+      });
+    },
+    true
+  );
+}
+
 function renderMediaLab() {
   const reelPlayer = $("[data-reel-player]");
   const reelNow = $("[data-reel-now]");
@@ -542,6 +557,7 @@ hydrateSoundProject();
 renderWorks();
 renderMediaLab();
 renderSkills();
+initExclusiveMediaPlayback();
 initProjectDialog();
 initNavigation();
 if (!initCinematicMotion()) initReveal();
