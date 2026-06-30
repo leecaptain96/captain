@@ -61,6 +61,22 @@ function hydrateSoundProject() {
     .join("");
 }
 
+function bindVideoOverlay(container) {
+  if (!container) return;
+  const video = $("video", container);
+  const button = $("[data-video-play]", container);
+  if (!video || !button || button.dataset.bound === "true") return;
+  button.dataset.bound = "true";
+
+  const update = () => container.classList.toggle("is-playing", !video.paused && !video.ended);
+  button.addEventListener("click", () => video.play().catch(() => {}));
+  video.addEventListener("play", update);
+  video.addEventListener("pause", update);
+  video.addEventListener("ended", update);
+  video.addEventListener("loadedmetadata", update);
+  update();
+}
+
 function renderMediaLab() {
   const reelPlayer = $("[data-reel-player]");
   const reelNow = $("[data-reel-now]");
@@ -69,6 +85,7 @@ function renderMediaLab() {
   const musicPlayer = $("[data-music-player]");
   const musicNow = $("[data-music-now]");
   const musicList = $("[data-music-list]");
+  bindVideoOverlay($(".reel-screen"));
 
   const barWork = works.find((item) => item.id === "bar-space");
   const mediaVideos = [
@@ -237,6 +254,7 @@ function projectTemplate(work) {
             <source src="${mediaUrl(work.video)}" type="video/mp4" />
             当前浏览器不支持视频播放。
           </video>
+          <button class="video-play-overlay" type="button" data-video-play aria-label="播放${work.title}"><span></span></button>
           <small>${work.kind === "live-action" ? "REAL SHOOT / EDIT WORK" : "REAL AI WORK"} / LOCAL VIDEO PREVIEW / ${work.duration}</small>
         </div>
       </section>
@@ -256,6 +274,7 @@ function initProjectDialog() {
     const work = works.find((item) => item.id === id);
     if (!work) return;
     content.innerHTML = projectTemplate(work);
+    bindVideoOverlay($(".video-placeholder", content));
     dialog.showModal();
     dialog.scrollTop = 0;
     document.body.classList.add("dialog-open");
