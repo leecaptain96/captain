@@ -3,6 +3,7 @@ import { aiVideos, musicTracks, profile, skills, soundProject, works } from "../
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
+const mediaUrl = (src) => `${src}?v=20260701-seek1`;
 
 function hydrateProfile() {
   $("[data-profile-intro]").textContent = profile.introduction;
@@ -88,7 +89,7 @@ function renderMediaLab() {
   const setVideo = (id) => {
     const video = mediaVideos.find((item) => item.id === id) || mediaVideos[0];
     reelPlayer.pause();
-    reelPlayer.src = video.src;
+    reelPlayer.src = mediaUrl(video.src);
     reelPlayer.poster = video.poster;
     reelPlayer.setAttribute("aria-label", `${video.title}视频作品`);
     reelPlayer.load();
@@ -233,7 +234,7 @@ function projectTemplate(work) {
         <div class="archive-index">E / FILM</div>
         <div class="video-placeholder">
           <video controls playsinline preload="metadata" poster="${work.cover}" aria-label="${work.title}作品视频">
-            <source src="${work.video}" type="video/mp4" />
+            <source src="${mediaUrl(work.video)}" type="video/mp4" />
             当前浏览器不支持视频播放。
           </video>
           <small>${work.kind === "live-action" ? "REAL SHOOT / EDIT WORK" : "REAL AI WORK"} / LOCAL VIDEO PREVIEW / ${work.duration}</small>
