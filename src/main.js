@@ -34,7 +34,7 @@ function renderWorks() {
         aria-label="打开项目：${work.title}"
       >
         <div class="orbit-work-frame">
-          <img src="${work.cover}" alt="${work.alt}" loading="lazy" />
+          <img src="${work.cover}" alt="${work.alt}" loading="lazy" decoding="async" fetchpriority="low" />
           <span class="orbit-work-shade"></span>
           <span class="orbit-work-index">${work.index}</span>
           <span class="orbit-work-open">OPEN ↗</span>
@@ -188,8 +188,8 @@ function initHeroNoise() {
   const context = canvas.getContext("2d", { alpha: true });
   if (!context) return;
 
-  const patternSize = 220;
-  const refreshInterval = 4;
+  const patternSize = 160;
+  const refreshInterval = 6;
   const patternAlpha = 15;
   canvas.width = patternSize;
   canvas.height = patternSize;
@@ -250,7 +250,7 @@ function initHeroNoise() {
 function initAmbientMotion() {
   const media = $(".hero-media");
   if (media) {
-    gsapEngine.to(media, {
+    const ambientTween = gsapEngine.to(media, {
       scale: 1.018,
       xPercent: -0.45,
       yPercent: 0.35,
@@ -258,6 +258,15 @@ function initAmbientMotion() {
       ease: "sine.inOut",
       yoyo: true,
       repeat: -1
+    });
+    const ambientObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !document.hidden) ambientTween.resume();
+      else ambientTween.pause();
+    }, { threshold: 0.01 });
+    ambientObserver.observe(media);
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) ambientTween.pause();
+      else if (media.getBoundingClientRect().bottom > 0) ambientTween.resume();
     });
   }
 
@@ -301,13 +310,19 @@ function renderMediaLab() {
       : [])
   ];
 
-  const setVideo = (id) => {
+  let selectedVideoId = mediaVideos[0].id;
+  let selectedTrackId = musicTracks[0].id;
+
+  const setVideo = (id, { loadMedia = true } = {}) => {
     const video = mediaVideos.find((item) => item.id === id) || mediaVideos[0];
-    reelPlayer.pause();
-    reelPlayer.src = mediaUrl(video.src);
+    selectedVideoId = video.id;
+    if (loadMedia) {
+      reelPlayer.pause();
+      reelPlayer.src = mediaUrl(video.src);
+      reelPlayer.load();
+    }
     reelPlayer.poster = video.poster;
     reelPlayer.setAttribute("aria-label", `${video.title}视频作品`);
-    reelPlayer.load();
     reelCode.textContent = `${video.label} / LOCAL PREVIEW`;
     reelNow.innerHTML = `<span>${video.category}</span><h3>${video.title}</h3><p>${video.duration} / ${video.label}</p>`;
     $$('[data-video-id]', reelList).forEach((button) => {
@@ -332,12 +347,15 @@ function renderMediaLab() {
     if (button) setVideo(button.dataset.videoId);
   });
 
-  const setTrack = (id) => {
+  const setTrack = (id, { loadMedia = true } = {}) => {
     const track = musicTracks.find((item) => item.id === id) || musicTracks[0];
-    musicPlayer.pause();
-    musicPlayer.src = track.src;
+    selectedTrackId = track.id;
+    if (loadMedia) {
+      musicPlayer.pause();
+      musicPlayer.src = track.src;
+      musicPlayer.load();
+    }
     musicPlayer.setAttribute("aria-label", `${track.title} AI 音乐作品`);
-    musicPlayer.load();
     musicNow.innerHTML = `<span>NOW PLAYING / ${track.mood}</span><h4>${track.title}</h4><p>${track.duration}</p>`;
     $$('[data-track-id]', musicList).forEach((button) => {
       button.classList.toggle("is-active", button.dataset.trackId === track.id);
@@ -358,8 +376,19 @@ function renderMediaLab() {
     if (button) setTrack(button.dataset.trackId);
   });
 
-  setVideo(mediaVideos[0].id);
-  setTrack(musicTracks[0].id);
+  setVideo(selectedVideoId, { loadMedia: false });
+  setTrack(selectedTrackId, { loadMedia: false });
+
+  const mediaSection = reelPlayer.closest(".media-lab");
+  if (mediaSection) {
+    const mediaObserver = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      setVideo(selectedVideoId);
+      setTrack(selectedTrackId);
+      mediaObserver.disconnect();
+    }, { rootMargin: "320px 0px", threshold: 0.01 });
+    mediaObserver.observe(mediaSection);
+  }
 }
 
 function renderSkills() {
@@ -390,7 +419,7 @@ function projectTemplate(work) {
 
     <article class="project-archive">
       <section class="project-hero">
-        <img src="${work.cover}" alt="${work.alt}" />
+        <img src="${work.cover}" alt="${work.alt}" decoding="async" />
         <div class="project-hero-shade"></div>
         <div class="project-hero-copy">
           <p>${work.index} / ${work.type.toUpperCase()} / ${work.year}</p>
@@ -412,7 +441,7 @@ function projectTemplate(work) {
 
       <section class="archive-section project-concept">
         <div class="archive-index">B / CREATIVE CONCEPT</div>
-        <div class="concept-image"><img src="${work.frames[1]}" alt="${work.title}概念视觉" /></div>
+        <div class="concept-image"><img src="${work.frames[1]}" alt="${work.title}概念视觉" decoding="async" /></div>
         <div class="concept-copy">
           <h3>创意说明</h3>
           <p>${work.concept}</p>
@@ -427,7 +456,7 @@ function projectTemplate(work) {
             .map(
               (frame, index) => `
               <figure>
-                <img src="${frame}" alt="${work.title}分镜 ${index + 1}" />
+                <img src="${frame}" alt="${work.title}分镜 ${index + 1}" loading="lazy" decoding="async" />
                 <figcaption>SCENE 0${index + 1} <span>${["ESTABLISHING", "OBJECT / DETAIL", "CHARACTER / CLOSE"][index]}</span></figcaption>
               </figure>`
             )
@@ -471,6 +500,7 @@ function initProjectDialog() {
   const openProject = (id) => {
     const work = works.find((item) => item.id === id);
     if (!work) return;
+    $$("audio, video").forEach((media) => media.pause());
     content.innerHTML = projectTemplate(work);
     bindVideoOverlay($(".video-placeholder", content));
     dialog.showModal();
@@ -480,8 +510,10 @@ function initProjectDialog() {
   };
 
   const closeProject = () => {
+    $("video", content)?.pause();
     dialog.close();
     document.body.classList.remove("dialog-open");
+    content.replaceChildren();
   };
 
   $$('[data-project]').forEach((card) => {
@@ -512,9 +544,16 @@ function initNavigation() {
   const toggle = $(".menu-toggle");
   const mobileMenu = $(".mobile-menu");
 
-  const updateHeader = () => header.classList.toggle("is-scrolled", window.scrollY > 40);
+  let headerFrame = 0;
+  const updateHeader = () => {
+    headerFrame = 0;
+    header.classList.toggle("is-scrolled", window.scrollY > 40);
+  };
+  const scheduleHeaderUpdate = () => {
+    if (!headerFrame) headerFrame = requestAnimationFrame(updateHeader);
+  };
   updateHeader();
-  window.addEventListener("scroll", updateHeader, { passive: true });
+  window.addEventListener("scroll", scheduleHeaderUpdate, { passive: true });
 
   const closeMenu = () => {
     toggle.setAttribute("aria-expanded", "false");
