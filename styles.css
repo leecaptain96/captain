@@ -66,15 +66,6 @@ button {
   padding-inline: var(--gutter);
 }
 
-.noise {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  pointer-events: none;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E");
-}
-
 .cursor {
   position: fixed;
   top: 0;
@@ -362,6 +353,78 @@ button {
   display: block;
 }
 
+.hero-motion-ui {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-scanline {
+  position: absolute;
+  top: -15%;
+  left: 0;
+  width: 100%;
+  height: 18%;
+  background: linear-gradient(180deg, transparent, rgba(181, 244, 62, 0.045), transparent);
+  animation: hero-scan 8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  will-change: transform;
+}
+
+.hero-frame-code {
+  position: absolute;
+  top: 116px;
+  right: var(--gutter);
+  color: rgba(232, 233, 228, 0.4);
+  font-size: 7px;
+  letter-spacing: 0.18em;
+}
+
+@keyframes hero-scan {
+  0%, 12% { transform: translateY(-20vh); opacity: 0; }
+  22% { opacity: 1; }
+  72% { opacity: 0.75; }
+  88%, 100% { transform: translateY(125vh); opacity: 0; }
+}
+
+.proximity-char {
+  --proximity-shift: 0em;
+  --proximity-scale-x: 1;
+  --proximity-scale-y: 1;
+  --proximity-acid: 0%;
+  display: inline-block;
+  transform: translateY(var(--proximity-shift)) scaleX(var(--proximity-scale-x)) scaleY(var(--proximity-scale-y));
+  transform-origin: center 78%;
+  color: color-mix(in srgb, currentColor, var(--acid) var(--proximity-acid));
+  transition: transform 90ms linear, color 90ms linear;
+  will-change: transform;
+}
+
+.hero-noise {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.72;
+  mix-blend-mode: soft-light;
+  image-rendering: pixelated;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .hero-title .accent-line {
   display: inline-block;
   color: var(--paper);
@@ -553,6 +616,27 @@ button {
   gap: clamp(38px, 6vw, 104px);
   align-items: start;
   margin-top: clamp(60px, 8vw, 125px);
+}
+
+.section-head,
+.works-head,
+.media-head {
+  --line-reveal: 0;
+  position: relative;
+}
+
+.section-head::after,
+.works-head::after,
+.media-head::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--acid), rgba(232, 233, 228, 0.3) 42%, transparent);
+  transform: scaleX(var(--line-reveal));
+  transform-origin: left;
 }
 
 .about-copy {
@@ -2336,7 +2420,17 @@ button {
 
 .orbit-center-copy span,
 .orbit-center-copy small { color: var(--muted); font-size: 7px; letter-spacing: 0.2em; white-space: nowrap; }
-.orbit-center-copy strong { margin: 18px 0; font-family: var(--display); font-size: clamp(58px, 8vw, 126px); font-weight: 500; line-height: 0.72; letter-spacing: -0.075em; }
+.orbit-center-copy strong {
+  display: block;
+  margin: 22px 0;
+  padding: 0.08em 0 0.12em;
+  font-family: var(--display);
+  font-size: clamp(46px, 5.4vw, 84px);
+  font-weight: 500;
+  line-height: 0.88;
+  letter-spacing: -0.07em;
+  text-wrap: nowrap;
+}
 .orbit-center-copy strong::first-line { color: var(--acid); }
 
 /* Strong, editorial hover color swaps */
@@ -2387,6 +2481,13 @@ button {
 
 .embedded-sound-case .sound-case-grid {
   margin-top: clamp(46px, 6vw, 86px);
+  max-width: none;
+  grid-template-columns: minmax(0, 1.65fr) minmax(300px, 0.62fr);
+  gap: clamp(36px, 5vw, 82px);
+}
+
+.embedded-sound-case .sound-case-visual {
+  width: 100%;
 }
 
 .embedded-sound-case .sound-case-visual img {
@@ -2401,7 +2502,8 @@ button {
   .experience { padding-top: clamp(160px, 22vw, 210px); }
   .orbit-stage { height: 610px; }
   .orbit-work { width: clamp(138px, 22vw, 190px); offset-path: ellipse(40% 36% at 50% 50%); }
-  .orbit-center-copy strong { font-size: clamp(52px, 10vw, 86px); }
+  .orbit-center-copy strong { font-size: clamp(40px, 6.2vw, 58px); }
+  .embedded-sound-case .sound-case-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 640px) {

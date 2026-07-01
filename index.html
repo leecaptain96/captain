@@ -7,11 +7,10 @@
     <meta name="theme-color" content="#080908" />
     <title>李家民｜AI Director & Creative Filmmaker</title>
     <link rel="preload" href="./assets/images/real/poster-dream-hero.jpg" as="image" />
-    <link rel="stylesheet" href="./styles.css?v=20260630-layout3" />
-    <script type="module" src="./src/main.js?v=20260701-media1" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=20260701-title-perf1" />
+    <script type="module" src="./src/main.js?v=20260701-title-perf1" defer></script>
   </head>
   <body>
-    <div class="noise" aria-hidden="true"></div>
     <div class="cursor" aria-hidden="true"><span>VIEW</span></div>
 
     <header class="site-header" data-header>
@@ -57,8 +56,13 @@
           >
             <source src="./assets/videos/hero/dream-hero.mp4?v=20260701-seek1" type="video/mp4" />
           </video>
+          <canvas class="hero-noise" data-hero-noise aria-hidden="true"></canvas>
         </div>
         <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-motion-ui" aria-hidden="true">
+          <span class="hero-scanline"></span>
+          <span class="hero-frame-code">REC · GENERATIVE FRAME / 24 FPS</span>
+        </div>
 
         <div class="hero-rail hero-rail-left" aria-hidden="true">DIRECTOR'S PORTFOLIO · 2026</div>
         <div class="hero-rail hero-rail-right" aria-hidden="true">FRAME 01 / NOCTURNE</div>
@@ -74,7 +78,7 @@
             <span class="reveal delay-2 accent-line">拍出来。</span>
           </h1>
           <div class="hero-bottom reveal delay-3">
-            <p>AI导演 / 编导 / 摄影 / 剪辑 / AI音乐制作</p>
+            <p>编剧 / 导演 / 摄影 / 剪辑 / 音乐制作人</p>
             <div class="hero-actions">
               <a class="button button-solid" href="#works">查看作品 <span>↘</span></a>
               <a class="button button-line" href="#contact">联系我 <span>↗</span></a>
@@ -202,7 +206,6 @@
                 <p class="eyebrow" data-sound-project-role></p>
                 <h2 id="sound-case-title" class="display-title" data-sound-project-title></h2>
                 <p class="sound-summary" data-sound-project-summary></p>
-                <div class="sound-credits" data-sound-project-credits></div>
                 <div class="sound-awards" data-sound-project-awards></div>
               </div>
             </div>

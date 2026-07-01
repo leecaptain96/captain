@@ -3,22 +3,22 @@ export const profile = {
   romanizedName: "LI JIAMIN",
   title: "AI Director · Creative Filmmaker",
   introduction:
-    "我是一名 AI 导演、编导、摄影、剪辑与 AI 音乐制作人。能够把创意策划、脚本分镜、真实拍摄、AI 生成、后期剪辑和声音制作串成一条完整的内容生产链。",
+    "我是一名编剧、导演、摄影、剪辑、音乐制作人。",
   secondParagraph:
     "长期接触短视频行业，对平台内容节奏、热点抓取和传播包装有敏锐判断。我学习新工具很快，也乐于持续探索新技术，并把它们沉淀成更高效、更稳定的创作工作流。",
   capabilities: [
-    "AI 视频制作",
-    "广告创意",
-    "分镜与镜头设计",
-    "角色一致性",
-    "真实摄影感控制",
-    "短视频导演",
-    "热点洞察",
+    "创意策划",
+    "剧本创作",
+    "镜头设计",
+    "导演执行",
+    "视觉设计",
+    "角色设计",
     "后期剪辑",
-    "全流程声音制作",
-    "AI 音乐制作"
+    "声音设计",
+    "热点洞察",
+    "电影质感控制"
   ],
-  fields: ["AI 影像", "品牌广告", "短视频内容", "叙事短片", "声音制作", "AI 音乐"],
+  fields: ["品牌广告", "AI短视频", "AI叙事短片", "AI视觉设计", "声音制作", "创意策划"],
   contact: {
     email: "479669907@qq.com",
     phone: "18759667939",
@@ -35,7 +35,6 @@ export const soundProject = {
   role: "声音制作 / 独立负责",
   summary:
     "从拍摄现场到最终交付，独立完成整部微电影的声音工作。声音不是后期补丁，而是从前期录音开始就参与叙事结构。",
-  credits: ["前期录音", "后期混音", "编曲", "声音设计"],
   awards: [
     "Falcon International Film Festival · 最佳剧情奖",
     "World Film Carnival — Singapore · 杰出成就奖"

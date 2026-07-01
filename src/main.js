@@ -1,5 +1,5 @@
 import { gsap as gsapEngine, ScrollTrigger as ScrollTriggerPlugin } from "../assets/vendor/gsap-bundle.min.js?v=20260630-perf";
-import { aiVideos, musicTracks, profile, skills, soundProject, works } from "../data/portfolio.js?v=20260630-layout6";
+import { aiVideos, musicTracks, profile, skills, soundProject, works } from "../data/portfolio.js?v=20260701-fields1";
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
@@ -53,9 +53,6 @@ function hydrateSoundProject() {
   $("[data-sound-project-role]").textContent = `${soundProject.role} / ${soundProject.year}`;
   $("[data-sound-project-title]").textContent = soundProject.title;
   $("[data-sound-project-summary]").textContent = soundProject.summary;
-  $("[data-sound-project-credits]").innerHTML = soundProject.credits
-    .map((credit, index) => `<span><b>0${index + 1}</b>${credit}</span>`)
-    .join("");
   $("[data-sound-project-awards]").innerHTML = soundProject.awards
     .map((award) => `<p>${award}</p>`)
     .join("");
@@ -90,6 +87,192 @@ function initExclusiveMediaPlayback() {
     },
     true
   );
+}
+
+function initHeroVariableProximity() {
+  const container = $(".hero-content");
+  const title = $(".hero-title");
+  if (!container || !title || !window.matchMedia("(pointer: fine)").matches) return;
+
+  const characters = [];
+  $$(":scope > span", title).forEach((line) => {
+    const label = line.textContent.trim();
+    line.textContent = "";
+    [...label].forEach((character) => {
+      const span = document.createElement("span");
+      span.className = "proximity-char";
+      span.setAttribute("aria-hidden", "true");
+      span.textContent = character === " " ? "\u00a0" : character;
+      line.append(span);
+      characters.push(span);
+    });
+    const accessibleLabel = document.createElement("span");
+    accessibleLabel.className = "sr-only";
+    accessibleLabel.textContent = label;
+    line.append(accessibleLabel);
+  });
+
+  const radius = 190;
+  const centers = [];
+  const previousStrengths = new Array(characters.length).fill(-1);
+  let pointerX = -1000;
+  let pointerY = -1000;
+  let frameId = 0;
+  let measureId = 0;
+  let interactionMeasured = false;
+
+  const measureCharacters = () => {
+    measureId = 0;
+    characters.forEach((character, index) => {
+      const rect = character.getBoundingClientRect();
+      centers[index] = {
+        x: rect.left + rect.width / 2 + window.scrollX,
+        y: rect.top + rect.height / 2 + window.scrollY
+      };
+    });
+  };
+
+  const scheduleMeasure = () => {
+    interactionMeasured = false;
+    if (!measureId) measureId = requestAnimationFrame(measureCharacters);
+  };
+
+  const render = () => {
+    frameId = 0;
+    const pagePointerX = pointerX + window.scrollX;
+    const pagePointerY = pointerY + window.scrollY;
+    characters.forEach((character, index) => {
+      const center = centers[index];
+      if (!center) return;
+      const distance = Math.hypot(pagePointerX - center.x, pagePointerY - center.y);
+      const normalized = Math.max(0, 1 - distance / radius);
+      const strength = normalized * normalized;
+      if (Math.abs(strength - previousStrengths[index]) < 0.018) return;
+      previousStrengths[index] = strength;
+      character.style.setProperty("--proximity-shift", `${(-0.055 * strength).toFixed(4)}em`);
+      character.style.setProperty("--proximity-scale-x", (1 + strength * 0.08).toFixed(3));
+      character.style.setProperty("--proximity-scale-y", (1 + strength * 0.12).toFixed(3));
+      character.style.setProperty("--proximity-acid", `${(strength * 13).toFixed(2)}%`);
+    });
+  };
+
+  const schedule = () => {
+    if (!frameId) frameId = requestAnimationFrame(render);
+  };
+
+  container.addEventListener("pointermove", (event) => {
+    if (!interactionMeasured) {
+      measureCharacters();
+      interactionMeasured = true;
+    }
+    pointerX = event.clientX;
+    pointerY = event.clientY;
+    schedule();
+  }, { passive: true });
+
+  container.addEventListener("pointerleave", () => {
+    pointerX = -1000;
+    pointerY = -1000;
+    schedule();
+  });
+
+  measureCharacters();
+  window.addEventListener("resize", scheduleMeasure, { passive: true });
+  document.fonts?.ready.then(scheduleMeasure);
+}
+
+function initHeroNoise() {
+  const canvas = $("[data-hero-noise]");
+  const hero = $(".hero");
+  if (!canvas || !hero) return;
+  const context = canvas.getContext("2d", { alpha: true });
+  if (!context) return;
+
+  const patternSize = 220;
+  const refreshInterval = 4;
+  const patternAlpha = 15;
+  canvas.width = patternSize;
+  canvas.height = patternSize;
+
+  const imageData = context.createImageData(patternSize, patternSize);
+  const pixels = imageData.data;
+  let animationId = 0;
+  let frame = 0;
+  let visible = true;
+
+  const draw = () => {
+    for (let index = 0; index < pixels.length; index += 4) {
+      const value = Math.random() * 255;
+      pixels[index] = value;
+      pixels[index + 1] = value;
+      pixels[index + 2] = value;
+      pixels[index + 3] = patternAlpha;
+    }
+    context.putImageData(imageData, 0, 0);
+  };
+
+  const loop = () => {
+    if (!visible || document.hidden) {
+      animationId = 0;
+      return;
+    }
+    if (frame % refreshInterval === 0) draw();
+    frame += 1;
+    animationId = requestAnimationFrame(loop);
+  };
+
+  const start = () => {
+    if (!animationId && visible && !document.hidden) animationId = requestAnimationFrame(loop);
+  };
+
+  const observer = new IntersectionObserver(([entry]) => {
+    visible = entry.isIntersecting;
+    if (visible) start();
+    else if (animationId) {
+      cancelAnimationFrame(animationId);
+      animationId = 0;
+    }
+  }, { threshold: 0.01 });
+
+  observer.observe(hero);
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden && animationId) {
+      cancelAnimationFrame(animationId);
+      animationId = 0;
+    } else {
+      start();
+    }
+  });
+  draw();
+  start();
+}
+
+function initAmbientMotion() {
+  const media = $(".hero-media");
+  if (media) {
+    gsapEngine.to(media, {
+      scale: 1.018,
+      xPercent: -0.45,
+      yPercent: 0.35,
+      duration: 13,
+      ease: "sine.inOut",
+      yoyo: true,
+      repeat: -1
+    });
+  }
+
+  $$(".section-head, .works-head, .media-head").forEach((heading) => {
+    gsapEngine.fromTo(
+      heading,
+      { "--line-reveal": 0 },
+      {
+        "--line-reveal": 1,
+        duration: 1.45,
+        ease: "power4.inOut",
+        scrollTrigger: { trigger: heading, start: "top 86%", once: true }
+      }
+    );
+  });
 }
 
 function renderMediaLab() {
@@ -425,7 +608,7 @@ function initCinematicMotion() {
     }
 
     const targets = $$(
-      '.section-id, .eyebrow, .display-title, .lead, .body-copy, .about-aside, .fact, .sound-case-copy > *, .orbit-center-copy, .reel-panel > *, .music-intro, .music-player, .skill-item, .experience-inner > *, .contact-kicker, .contact-title, .contact-grid > *',
+      '.section-id, .eyebrow, .display-title, .lead, .body-copy, .about-aside, .fact, .sound-case-copy > *, .reel-panel > *, .music-intro, .music-player, .skill-item, .experience-inner > *, .contact-kicker, .contact-title, .contact-grid > *',
       section
     );
     if (targets.length) {
@@ -445,12 +628,13 @@ function initCinematicMotion() {
   });
 
   $$('.sound-case-visual, .reel-screen').forEach((frame) => {
+    const isSoundProject = frame.classList.contains('sound-case-visual');
     gsap.fromTo(
       frame,
       { clipPath: 'inset(0 100% 0 0)' },
       {
         clipPath: 'inset(0 0% 0 0)',
-        duration: 1.55,
+        duration: isSoundProject ? 0.85 : 1.55,
         ease: 'power4.inOut',
         scrollTrigger: { trigger: frame, start: 'top 82%', once: true }
       }
@@ -463,7 +647,7 @@ function initCinematicMotion() {
         {
           scale: 1,
           xPercent: 0,
-          duration: 1.75,
+          duration: isSoundProject ? 1 : 1.75,
           ease: 'power3.out',
           scrollTrigger: { trigger: frame, start: 'top 82%', once: true }
         }
@@ -471,18 +655,24 @@ function initCinematicMotion() {
     }
   });
 
-  gsap.fromTo(
-    '.orbit-work',
-    { scale: 0.56, autoAlpha: 0 },
-    {
-      scale: 1,
-      autoAlpha: 1,
-      stagger: 0.13,
-      duration: 1.05,
-      ease: 'power4.out',
-      scrollTrigger: { trigger: '.orbit-stage', start: 'top 78%', once: true }
-    }
-  );
+  const orbitIntro = gsap.timeline({
+    scrollTrigger: { trigger: '.orbit-stage', start: 'top 80%', once: true }
+  });
+  orbitIntro
+    .fromTo('.orbit-track', { autoAlpha: 0, scale: 0.96 }, { autoAlpha: 1, scale: 1, duration: 1.15, ease: 'power3.out' })
+    .fromTo('.orbit-center-copy', { y: 26, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8, ease: 'power3.out' }, 0.18)
+    .fromTo(
+      '.orbit-work-frame',
+      { clipPath: 'inset(0 0 100% 0)' },
+      { clipPath: 'inset(0 0 0% 0)', stagger: 0.09, duration: 0.82, ease: 'power4.inOut' },
+      0.28
+    )
+    .fromTo(
+      '.orbit-work-frame img',
+      { scale: 1.1 },
+      { scale: 1.04, stagger: 0.09, duration: 1, ease: 'power3.out' },
+      0.28
+    );
 
   return true;
 }
@@ -558,9 +748,12 @@ renderWorks();
 renderMediaLab();
 renderSkills();
 initExclusiveMediaPlayback();
+initHeroNoise();
+initHeroVariableProximity();
 initProjectDialog();
 initNavigation();
 if (!initCinematicMotion()) initReveal();
+initAmbientMotion();
 initRuntimeEfficiency();
 initPointer();
 initHeroParallax();
