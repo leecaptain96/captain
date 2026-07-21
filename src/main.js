@@ -1,5 +1,5 @@
 import { gsap as gsapEngine, ScrollTrigger as ScrollTriggerPlugin } from "../assets/vendor/gsap-bundle.min.js?v=20260630-perf";
-import { aiVideos, featuredWorkIds, musicTracks, profile, skills, soundProject, works } from "../data/portfolio.js?v=20260721-featured2";
+import { aiVideos, featuredWorkIds, musicTracks, profile, skills, soundProject, works } from "../data/portfolio.js?v=20260721-media-order1";
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];

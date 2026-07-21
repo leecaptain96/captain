@@ -308,17 +308,17 @@ export const works = [
 export const featuredWorkIds = ["la-monster", "fall", "dark-dragon", "anime-fight", "foundation", "creative-point-2"];
 
 export const aiVideos = [
+  { id: "la-monster", title: "洛杉矶怪兽", category: "AI 城市科幻", duration: "00:27", src: "./assets/videos/ai/la-monster.mp4", poster: "./assets/images/real/poster-la-monster.jpg" },
   { id: "fall", title: "坠落", category: "AI 科幻", duration: "00:55", src: "./assets/videos/ai/fall.mp4", poster: "./assets/images/real/poster-fall.jpg" },
   { id: "white-rose", title: "白玫瑰", category: "AI 叙事", duration: "01:03", src: "./assets/videos/ai/white-rose.mp4", poster: "./assets/images/real/poster-white-rose.jpg" },
-  { id: "live-action-ad", title: "骑马", category: "AI 广告视觉", duration: "00:15", src: "./assets/videos/ai/live-action-ad.mp4", poster: "./assets/images/real/poster-live-action-ad.jpg" },
   { id: "anime-fight", title: "日漫打斗", category: "AI 动漫", duration: "00:30", src: "./assets/videos/ai/anime-fight.mp4", poster: "./assets/images/real/poster-anime-fight.jpg" },
   { id: "dark-dragon", title: "暗黑龙战士", category: "AI 科幻", duration: "00:42", src: "./assets/videos/ai/dark-dragon.mp4", poster: "./assets/images/real/poster-dark-dragon.jpg" },
   { id: "white-robe", title: "白袍", category: "AI 动漫", duration: "00:21", src: "./assets/videos/ai/white-robe.mp4", poster: "./assets/images/real/poster-white-robe.jpg" },
-  { id: "foundation", title: "粉底液", category: "AI 电商", duration: "00:15", src: "./assets/videos/ai/foundation.mp4", poster: "./assets/images/real/poster-foundation.jpg" },
+  { id: "foundation", title: "粉底液电商广告", category: "AI 电商", duration: "00:15", src: "./assets/videos/ai/foundation.mp4", poster: "./assets/images/real/poster-foundation.jpg" },
+  { id: "soda-ad", title: "汽水广告", category: "AI 饮料广告", duration: "00:15", src: "./assets/videos/ai/soda-ad.mp4", poster: "./assets/images/real/poster-soda-ad.jpg" },
+  { id: "live-action-ad", title: "骑马", category: "AI 广告视觉", duration: "00:15", src: "./assets/videos/ai/live-action-ad.mp4", poster: "./assets/images/real/poster-live-action-ad.jpg" },
   { id: "creative-point", title: "创意点", category: "AI 超现实视觉", duration: "00:06", src: "./assets/videos/ai/creative-point.mp4", poster: "./assets/images/real/poster-creative-point.jpg" },
-  { id: "creative-point-2", title: "创意点 2", category: "AI 奢侈品视觉", duration: "00:09", src: "./assets/videos/ai/creative-point-2.mp4", poster: "./assets/images/real/poster-creative-point-2.jpg" },
-  { id: "la-monster", title: "洛杉矶怪兽", category: "AI 城市科幻", duration: "00:27", src: "./assets/videos/ai/la-monster.mp4", poster: "./assets/images/real/poster-la-monster.jpg" },
-  { id: "soda-ad", title: "汽水广告", category: "AI 饮料广告", duration: "00:15", src: "./assets/videos/ai/soda-ad.mp4", poster: "./assets/images/real/poster-soda-ad.jpg" }
+  { id: "creative-point-2", title: "创意点 2", category: "AI 奢侈品视觉", duration: "00:09", src: "./assets/videos/ai/creative-point-2.mp4", poster: "./assets/images/real/poster-creative-point-2.jpg" }
 ];
 
 export const musicTracks = [
