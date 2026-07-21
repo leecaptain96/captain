@@ -101,7 +101,7 @@ export const works = [
   },
   {
     id: "anime-fight",
-    index: "03",
+    index: "04",
     title: "日漫打斗",
     englishTitle: "ANIME FIGHT",
     type: "AI Animation",
@@ -182,8 +182,130 @@ export const works = [
       "./assets/images/real/frame-foundation-02.jpg",
       "./assets/images/real/frame-foundation-03.jpg"
     ]
+  },
+  {
+    id: "la-monster",
+    index: "01",
+    title: "洛杉矶怪兽",
+    englishTitle: "LOS ANGELES MONSTER",
+    type: "AI Sci-Fi Film",
+    typeZh: "AI 城市科幻",
+    year: "2026",
+    duration: "00' 27\"",
+    role: "AI 导演 / 世界观设计 / 剪辑",
+    cover: "./assets/images/real/poster-la-monster.jpg",
+    video: "./assets/videos/ai/la-monster.mp4",
+    alt: "巨型透明生物悬浮在洛杉矶城市上空",
+    short: "用宏大尺度与城市地标构建具有新闻现场感的怪兽影像。",
+    background: "以洛杉矶遭遇未知巨型生物为核心概念，将熟悉的城市空间转化为带有灾难片气质的科幻现场。",
+    concept: "通过地标建筑、云层和巨型透明生物之间的尺度关系制造可信度，让超现实事件保持真实摄影与目击影像的质感。",
+    character: "怪兽采用半透明水母形态，以材质、轮廓和缓慢运动形成辨识度，并在不同镜头中维持体量一致。",
+    scene: "场景围绕城市天际线、街道与远距离观察视角展开，以自然光和空气透视统一空间层次。",
+    frames: [
+      "./assets/images/real/frame-la-monster-01.jpg",
+      "./assets/images/real/frame-la-monster-02.jpg",
+      "./assets/images/real/frame-la-monster-03.jpg"
+    ]
+  },
+  {
+    id: "creative-point",
+    index: "03",
+    title: "创意点",
+    englishTitle: "CREATIVE POINT",
+    type: "AI Concept Film",
+    typeZh: "AI 超现实视觉",
+    year: "2026",
+    duration: "00' 06\"",
+    role: "创意概念 / AI 视觉 / 剪辑",
+    cover: "./assets/images/real/poster-creative-point.jpg",
+    video: "./assets/videos/ai/creative-point.mp4",
+    alt: "办公空间中悬浮的手部与黑色方块",
+    short: "把日常办公空间转化为短促、陌生而有记忆点的超现实瞬间。",
+    background: "一次围绕视觉奇点展开的短片练习，用极短时长测试单一创意在画面中的注意力抓取能力。",
+    concept: "以冷静的办公环境作为现实基底，再植入悬浮肢体与几何物体，通过反差形成第一眼记忆点。",
+    character: "弱化传统人物叙事，让手部和悬浮物成为动作主体，以形态变化驱动画面。",
+    scene: "采用低饱和办公空间、浅景深和稳定机位，让异常元素显得更加真实。",
+    frames: [
+      "./assets/images/real/frame-creative-point-01.jpg",
+      "./assets/images/real/frame-creative-point-02.jpg",
+      "./assets/images/real/frame-creative-point-03.jpg"
+    ]
+  },
+  {
+    id: "soda-ad",
+    index: "04",
+    title: "汽水广告",
+    englishTitle: "SODA AD",
+    type: "AI Commercial Film",
+    typeZh: "AI 饮料广告",
+    year: "2026",
+    duration: "00' 15\"",
+    role: "广告创意 / AI 视觉 / 剪辑",
+    cover: "./assets/images/real/poster-soda-ad.jpg",
+    video: "./assets/videos/ai/soda-ad.mp4",
+    alt: "夜景中手持带有水珠的绿色汽水罐",
+    short: "用夜景、冷凝水珠和近距离镜头强化饮料的清爽感与年轻气质。",
+    background: "面向短视频平台的 AI 饮料广告练习，在十五秒内完成产品露出、情绪建立与记忆点收束。",
+    concept: "以城市夜景和绿色罐体建立色彩识别，通过开罐、气泡与水珠特写传达冰爽口感。",
+    character: "产品是唯一主角，人物只保留手部与局部动作，避免分散品牌注意力。",
+    scene: "场景使用夜间城市散景与近距离手持视角，形成真实、年轻且适合社交媒体传播的生活感。",
+    frames: [
+      "./assets/images/real/frame-soda-ad-01.jpg",
+      "./assets/images/real/frame-soda-ad-02.jpg",
+      "./assets/images/real/frame-soda-ad-03.jpg"
+    ]
+  },
+  {
+    id: "dark-dragon",
+    index: "03",
+    title: "暗黑龙战士",
+    englishTitle: "DARK DRAGON WARRIOR",
+    type: "AI Fantasy Film",
+    typeZh: "AI 暗黑奇幻",
+    year: "2026",
+    duration: "00' 42\"",
+    role: "AI 导演 / 角色设计 / 剪辑",
+    cover: "./assets/images/real/poster-dark-dragon.jpg",
+    video: "./assets/videos/ai/dark-dragon.mp4",
+    alt: "暗黑奇幻世界中的龙战士角色",
+    short: "以暗黑美术、角色一致性和战斗氛围构建奇幻影像。",
+    background: "围绕龙战士与黑暗世界展开的 AI 奇幻短片，重点测试角色造型、环境尺度和连续镜头中的风格稳定性。",
+    concept: "使用低明度环境、冷色雾气与局部火光建立压迫感，让角色轮廓和力量感成为画面核心。",
+    character: "持续锁定盔甲结构、龙元素、武器和面部特征，在动作变化中保持角色身份统一。",
+    scene: "场景由荒原、遗迹与暗色天空构成，通过逆光、烟雾和空间纵深强化史诗气质。",
+    frames: [
+      "./assets/images/real/frame-dark-dragon-01.jpg",
+      "./assets/images/real/frame-dark-dragon-02.jpg",
+      "./assets/images/real/frame-dark-dragon-03.jpg"
+    ]
+  },
+  {
+    id: "creative-point-2",
+    index: "06",
+    title: "创意点 2",
+    englishTitle: "CREATIVE POINT II",
+    type: "AI Luxury Visual",
+    typeZh: "AI 奢侈品视觉",
+    year: "2026",
+    duration: "00' 09\"",
+    role: "创意概念 / AI 视觉 / 剪辑",
+    cover: "./assets/images/real/poster-creative-point-2.jpg",
+    video: "./assets/videos/ai/creative-point-2.mp4",
+    alt: "哥特式空间中的唇膏与超现实人物",
+    short: "将奢侈品、宗教建筑与超现实构图组合成强记忆点视觉。",
+    background: "以高端美妆产品为视觉核心的 AI 概念短片，探索奢侈品广告在短时长中的仪式感与视觉冲击。",
+    concept: "通过哥特式建筑、对称构图、红黑金配色和悬浮人物，把产品塑造成具有神圣感的视觉图腾。",
+    character: "人物作为产品仪式的引导者，以统一黑色造型和对称动作维持画面秩序。",
+    scene: "场景结合教堂结构、装饰艺术与超现实尺度，利用中心透视突出产品位置。",
+    frames: [
+      "./assets/images/real/frame-creative-point-2-01.jpg",
+      "./assets/images/real/frame-creative-point-2-02.jpg",
+      "./assets/images/real/frame-creative-point-2-03.jpg"
+    ]
   }
 ];
+
+export const featuredWorkIds = ["la-monster", "fall", "dark-dragon", "anime-fight", "foundation", "creative-point-2"];
 
 export const aiVideos = [
   { id: "fall", title: "坠落", category: "AI 科幻", duration: "00:55", src: "./assets/videos/ai/fall.mp4", poster: "./assets/images/real/poster-fall.jpg" },
@@ -192,7 +314,11 @@ export const aiVideos = [
   { id: "anime-fight", title: "日漫打斗", category: "AI 动漫", duration: "00:30", src: "./assets/videos/ai/anime-fight.mp4", poster: "./assets/images/real/poster-anime-fight.jpg" },
   { id: "dark-dragon", title: "暗黑龙战士", category: "AI 科幻", duration: "00:42", src: "./assets/videos/ai/dark-dragon.mp4", poster: "./assets/images/real/poster-dark-dragon.jpg" },
   { id: "white-robe", title: "白袍", category: "AI 动漫", duration: "00:21", src: "./assets/videos/ai/white-robe.mp4", poster: "./assets/images/real/poster-white-robe.jpg" },
-  { id: "foundation", title: "粉底液", category: "AI 电商", duration: "00:15", src: "./assets/videos/ai/foundation.mp4", poster: "./assets/images/real/poster-foundation.jpg" }
+  { id: "foundation", title: "粉底液", category: "AI 电商", duration: "00:15", src: "./assets/videos/ai/foundation.mp4", poster: "./assets/images/real/poster-foundation.jpg" },
+  { id: "creative-point", title: "创意点", category: "AI 超现实视觉", duration: "00:06", src: "./assets/videos/ai/creative-point.mp4", poster: "./assets/images/real/poster-creative-point.jpg" },
+  { id: "creative-point-2", title: "创意点 2", category: "AI 奢侈品视觉", duration: "00:09", src: "./assets/videos/ai/creative-point-2.mp4", poster: "./assets/images/real/poster-creative-point-2.jpg" },
+  { id: "la-monster", title: "洛杉矶怪兽", category: "AI 城市科幻", duration: "00:27", src: "./assets/videos/ai/la-monster.mp4", poster: "./assets/images/real/poster-la-monster.jpg" },
+  { id: "soda-ad", title: "汽水广告", category: "AI 饮料广告", duration: "00:15", src: "./assets/videos/ai/soda-ad.mp4", poster: "./assets/images/real/poster-soda-ad.jpg" }
 ];
 
 export const musicTracks = [

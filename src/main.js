@@ -1,5 +1,5 @@
 import { gsap as gsapEngine, ScrollTrigger as ScrollTriggerPlugin } from "../assets/vendor/gsap-bundle.min.js?v=20260630-perf";
-import { aiVideos, musicTracks, profile, skills, soundProject, works } from "../data/portfolio.js?v=20260701-fields1";
+import { aiVideos, featuredWorkIds, musicTracks, profile, skills, soundProject, works } from "../data/portfolio.js?v=20260721-featured2";
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
@@ -22,12 +22,13 @@ function hydrateProfile() {
 }
 
 function renderWorks() {
-  $("[data-works]").innerHTML = works
+  const featuredWorks = featuredWorkIds.map((id) => works.find((work) => work.id === id)).filter(Boolean);
+  $("[data-works]").innerHTML = featuredWorks
     .map(
       (work, index) => `
       <article
         class="orbit-work"
-        style="--orbit-index:${index}; --orbit-count:${works.length}; --orbit-delay:${(-34 * index / works.length).toFixed(2)}s"
+        style="--orbit-index:${index}; --orbit-count:${featuredWorks.length}; --orbit-delay:${(-34 * index / featuredWorks.length).toFixed(2)}s"
         data-project="${work.id}"
         tabindex="0"
         role="button"
@@ -335,7 +336,7 @@ function renderMediaLab() {
     .map(
       (video, index) => `
         <button type="button" data-video-id="${video.id}" aria-pressed="false">
-          <span>0${index + 1}</span>
+          <span>${String(index + 1).padStart(2, "0")}</span>
           <strong>${video.title}</strong>
           <small>${video.category}</small>
           <i>${video.duration}</i>
@@ -367,7 +368,7 @@ function renderMediaLab() {
     .map(
       (track, index) => `
         <button type="button" data-track-id="${track.id}" aria-pressed="false">
-          <span>0${index + 1}</span><strong>${track.title}</strong><small>${track.mood}</small><i>${track.duration}</i>
+          <span>${String(index + 1).padStart(2, "0")}</span><strong>${track.title}</strong><small>${track.mood}</small><i>${track.duration}</i>
         </button>`
     )
     .join("");
