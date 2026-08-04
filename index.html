@@ -7,8 +7,8 @@
     <meta name="theme-color" content="#080908" />
     <title>李家民｜AI Director & Creative Filmmaker</title>
     <link rel="preload" href="./assets/images/real/poster-dream-hero.jpg" as="image" />
-    <link rel="stylesheet" href="./styles.css?v=20260805-smooth-switch" />
-    <script type="module" src="./src/main.js?v=20260805-smooth-switch" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=20260805-nav-arrows" />
+    <script type="module" src="./src/main.js?v=20260805-nav-arrows" defer></script>
   </head>
   <body>
     <div class="cursor" aria-hidden="true"><span>VIEW</span></div>
@@ -145,6 +145,14 @@
               <video data-reel-player controls playsinline preload="metadata"></video>
               <div class="reel-switch-cover" data-reel-switch-cover aria-hidden="true"><img src="" alt="" /></div>
               <span class="reel-screen-code" data-reel-code>VIDEO / LOCAL PREVIEW</span>
+              <div class="reel-nav" aria-label="视频作品切换">
+                <button class="reel-step reel-prev" type="button" data-reel-prev aria-label="播放上一条作品">
+                  <i aria-hidden="true">←</i><span>上一条</span><strong data-reel-prev-title></strong>
+                </button>
+                <button class="reel-step reel-next" type="button" data-reel-next aria-label="播放下一条作品">
+                  <span>下一条</span><strong data-reel-next-title></strong><i aria-hidden="true">→</i>
+                </button>
+              </div>
             </div>
             <div class="reel-panel">
               <div class="reel-now" data-reel-now></div>

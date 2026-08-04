@@ -249,6 +249,10 @@ function renderMediaLab() {
   const reelNow = $("[data-reel-now]");
   const reelList = $("[data-reel-list]");
   const reelCode = $("[data-reel-code]");
+  const reelPrev = $("[data-reel-prev]");
+  const reelPrevTitle = $("[data-reel-prev-title]");
+  const reelNext = $("[data-reel-next]");
+  const reelNextTitle = $("[data-reel-next-title]");
   const musicPlayer = $("[data-music-player]");
   const musicNow = $("[data-music-now]");
   const musicList = $("[data-music-list]");
@@ -316,6 +320,12 @@ function renderMediaLab() {
     reelPlayer.setAttribute("aria-label", `${video.title}视频作品`);
     reelCode.textContent = `${video.label} / LOCAL PREVIEW`;
     reelNow.innerHTML = `<span>${video.category}</span><h3>${video.title}</h3><p>${video.duration} / ${video.label}</p>`;
+    const currentIndex = mediaVideos.findIndex((item) => item.id === video.id);
+    const previousVideo = mediaVideos[(currentIndex - 1 + mediaVideos.length) % mediaVideos.length];
+    const nextVideo = mediaVideos[(currentIndex + 1) % mediaVideos.length];
+    if (reelPrev) reelPrev.hidden = currentIndex === 0;
+    if (reelPrevTitle) reelPrevTitle.textContent = previousVideo.title;
+    if (reelNextTitle) reelNextTitle.textContent = nextVideo.title;
     $$('[data-video-id]', reelList).forEach((button) => {
       button.classList.toggle("is-active", button.dataset.videoId === video.id);
       button.setAttribute("aria-pressed", String(button.dataset.videoId === video.id));
@@ -333,19 +343,18 @@ function renderMediaLab() {
         </button>`
     )
     .join("");
-  reelList.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-video-id]");
-    if (!button) return;
-    const nextVideo = mediaVideos.find((video) => video.id === button.dataset.videoId);
-    const isSameVideo = selectedVideoId === button.dataset.videoId && reelPlayer.getAttribute("src");
+  const switchAndPlay = (videoId, { moveToPlayer = false } = {}) => {
+    const nextVideo = mediaVideos.find((video) => video.id === videoId);
+    if (!nextVideo) return;
+    const isSameVideo = selectedVideoId === videoId && reelPlayer.getAttribute("src");
     const token = ++switchToken;
     if (!isSameVideo && nextVideo && switchCover && switchCoverImage) {
       switchCoverImage.src = nextVideo.poster;
       switchCover.classList.add("is-visible");
     }
-    setVideo(button.dataset.videoId);
+    setVideo(videoId);
     reelPlayer.play().catch(() => {});
-    scrollToPlayer();
+    if (moveToPlayer) scrollToPlayer();
     if (!isSameVideo && switchCover) {
       const revealVideo = () => {
         if (token !== switchToken) return;
@@ -354,6 +363,25 @@ function renderMediaLab() {
       reelPlayer.addEventListener("playing", () => setTimeout(revealVideo, 240), { once: true });
       setTimeout(revealVideo, 1600);
     }
+  };
+
+  reelList.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-video-id]");
+    if (!button) return;
+    switchAndPlay(button.dataset.videoId, { moveToPlayer: true });
+  });
+
+  reelNext?.addEventListener("click", () => {
+    const currentIndex = mediaVideos.findIndex((video) => video.id === selectedVideoId);
+    const nextVideo = mediaVideos[(currentIndex + 1) % mediaVideos.length];
+    switchAndPlay(nextVideo.id);
+  });
+
+  reelPrev?.addEventListener("click", () => {
+    const currentIndex = mediaVideos.findIndex((video) => video.id === selectedVideoId);
+    if (currentIndex <= 0) return;
+    const previousVideo = mediaVideos[(currentIndex - 1 + mediaVideos.length) % mediaVideos.length];
+    switchAndPlay(previousVideo.id);
   });
 
   const setTrack = (id, { loadMedia = true } = {}) => {
