@@ -1225,10 +1225,6 @@ button {
 .reel-list {
   flex: 1;
   display: grid;
-  max-height: 540px;
-  overflow-y: auto;
-  scrollbar-color: var(--acid) transparent;
-  scrollbar-width: thin;
 }
 
 .reel-list button,
