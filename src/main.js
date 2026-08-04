@@ -249,8 +249,6 @@ function renderMediaLab() {
   const reelNow = $("[data-reel-now]");
   const reelList = $("[data-reel-list]");
   const reelCode = $("[data-reel-code]");
-  const reelFullscreen = $("[data-reel-fullscreen]");
-  const reelExitFullscreen = $("[data-reel-exit-fullscreen]");
   const reelPrev = $("[data-reel-prev]");
   const reelPrevTitle = $("[data-reel-prev-title]");
   const reelNext = $("[data-reel-next]");
@@ -281,7 +279,6 @@ function renderMediaLab() {
   let selectedTrackId = musicTracks[0].id;
   let scrollAnimationId = 0;
   let switchToken = 0;
-  let fullscreenNavTimer = 0;
 
   const scrollToPlayer = () => {
     if (!reelScreen) return;
@@ -385,41 +382,6 @@ function renderMediaLab() {
     if (currentIndex <= 0) return;
     const previousVideo = mediaVideos[(currentIndex - 1 + mediaVideos.length) % mediaVideos.length];
     switchAndPlay(previousVideo.id);
-  });
-
-  const showFullscreenNavigation = () => {
-    if (document.fullscreenElement !== reelScreen) return;
-    reelScreen.classList.add("is-nav-visible");
-    window.clearTimeout(fullscreenNavTimer);
-    fullscreenNavTimer = window.setTimeout(() => reelScreen.classList.remove("is-nav-visible"), 1800);
-  };
-
-  reelFullscreen?.addEventListener("click", async () => {
-    try {
-      reelScreen.classList.add("is-fullscreen-transitioning");
-      if (document.fullscreenElement) await document.exitFullscreen();
-      else await reelScreen.requestFullscreen();
-    } catch (_) {
-      reelScreen.classList.remove("is-fullscreen-transitioning");
-    }
-  });
-
-  document.addEventListener("mousemove", showFullscreenNavigation, { passive: true, capture: true });
-  document.addEventListener("pointerdown", showFullscreenNavigation, { passive: true, capture: true });
-  reelExitFullscreen?.addEventListener("pointerdown", (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
-  });
-  document.addEventListener("fullscreenchange", () => {
-    const isFullscreen = document.fullscreenElement === reelScreen;
-    reelFullscreen?.setAttribute("aria-label", isFullscreen ? "退出全屏" : "全屏播放");
-    if (isFullscreen) showFullscreenNavigation();
-    else {
-      window.clearTimeout(fullscreenNavTimer);
-      reelScreen?.classList.remove("is-nav-visible");
-    }
-    window.setTimeout(() => reelScreen?.classList.remove("is-fullscreen-transitioning"), 260);
   });
 
   const setTrack = (id, { loadMedia = true } = {}) => {
