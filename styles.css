@@ -1173,6 +1173,12 @@ button {
   display: block;
   object-fit: contain;
   background: #000;
+  transition: opacity 0.28s ease, filter 0.28s ease;
+}
+
+.reel-screen.is-fullscreen-transitioning video {
+  opacity: 0.28;
+  filter: brightness(0.7);
 }
 
 .reel-switch-cover {
@@ -1232,6 +1238,86 @@ button {
   display: flex;
   gap: 7px;
 }
+
+.reel-fullscreen-icon {
+  position: absolute;
+  right: 52px;
+  bottom: 8px;
+  z-index: 5;
+  width: 48px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
+}
+
+.reel-exit-fullscreen { display: none; }
+
+.reel-screen:fullscreen {
+  width: 100vw;
+  height: 100vh;
+  aspect-ratio: auto;
+  background: #000;
+  border: 0;
+}
+
+.reel-screen:fullscreen video { width: 100%; height: 100%; object-fit: contain; }
+
+.reel-screen:fullscreen .reel-nav,
+.reel-screen:fullscreen .reel-exit-fullscreen {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reel-screen:fullscreen .reel-fullscreen-icon {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.reel-screen:fullscreen .reel-nav { transform: translateY(-5px); }
+
+.reel-screen:fullscreen .reel-nav {
+  top: 22px;
+  right: 76px;
+}
+
+.reel-screen:fullscreen.is-nav-visible .reel-nav,
+.reel-screen:fullscreen.is-nav-visible .reel-exit-fullscreen {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.reel-screen:fullscreen .reel-exit-fullscreen {
+  position: absolute;
+  top: 25px;
+  right: 24px;
+  z-index: 8;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 6px;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+}
+
+.reel-exit-fullscreen svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: square;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.reel-exit-fullscreen:hover svg { color: var(--acid); transform: scale(0.9); }
 
 .reel-step {
   position: relative;
