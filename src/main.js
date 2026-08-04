@@ -1,5 +1,5 @@
 import { gsap as gsapEngine, ScrollTrigger as ScrollTriggerPlugin } from "../assets/vendor/gsap-bundle.min.js?v=20260630-perf";
-import { aiVideos, featuredWorkIds, musicTracks, profile, skills, soundProject, works } from "../data/portfolio.js?v=20260805-remove-forest";
+import { aiVideos, musicTracks, profile, skills, soundProject, works } from "../data/portfolio.js?v=20260805-move-creative";
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
@@ -19,34 +19,6 @@ function hydrateProfile() {
   $("[data-wechat]").textContent = profile.contact.wechat;
   $("[data-phone]").textContent = profile.contact.phone;
   $("[data-douyin]").textContent = profile.contact.douyin;
-}
-
-function renderWorks() {
-  const featuredWorks = featuredWorkIds.map((id) => works.find((work) => work.id === id)).filter(Boolean);
-  $("[data-works]").innerHTML = featuredWorks
-    .map(
-      (work, index) => `
-      <article
-        class="orbit-work"
-        style="--orbit-index:${index}; --orbit-count:${featuredWorks.length}; --orbit-delay:${(-34 * index / featuredWorks.length).toFixed(2)}s"
-        data-project="${work.id}"
-        tabindex="0"
-        role="button"
-        aria-label="打开项目：${work.title}"
-      >
-        <div class="orbit-work-frame">
-          <img src="${work.cover}" alt="${work.alt}" loading="lazy" decoding="async" fetchpriority="low" />
-          <span class="orbit-work-shade"></span>
-          <span class="orbit-work-index">${work.index}</span>
-          <span class="orbit-work-open">OPEN ↗</span>
-        </div>
-        <div class="orbit-work-caption">
-          <strong>${work.title}</strong>
-          <span>${work.type} / ${work.year}</span>
-        </div>
-      </article>`
-    )
-    .join("");
 }
 
 function hydrateSoundProject() {
@@ -271,6 +243,9 @@ function initAmbientMotion() {
 
 function renderMediaLab() {
   const reelPlayer = $("[data-reel-player]");
+  const reelScreen = reelPlayer.closest(".reel-screen");
+  const switchCover = $("[data-reel-switch-cover]");
+  const switchCoverImage = switchCover ? $("img", switchCover) : null;
   const reelNow = $("[data-reel-now]");
   const reelList = $("[data-reel-list]");
   const reelCode = $("[data-reel-code]");
@@ -293,17 +268,49 @@ function renderMediaLab() {
         }]
       : [])
   ];
+  const videoCount = $("[data-video-count]");
+  if (videoCount) videoCount.textContent = String(mediaVideos.length);
 
   let selectedVideoId = mediaVideos[0].id;
   let selectedTrackId = musicTracks[0].id;
+  let scrollAnimationId = 0;
+  let switchToken = 0;
+
+  const scrollToPlayer = () => {
+    if (!reelScreen) return;
+    if (scrollAnimationId) cancelAnimationFrame(scrollAnimationId);
+    const startY = window.scrollY;
+    const rect = reelScreen.getBoundingClientRect();
+    const centeredOffset = Math.max(82, (window.innerHeight - rect.height) / 2);
+    const targetY = Math.max(0, startY + rect.top - centeredOffset);
+    const distance = targetY - startY;
+    if (Math.abs(distance) < 3) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      window.scrollTo(0, targetY);
+      return;
+    }
+    const duration = Math.min(950, Math.max(620, Math.abs(distance) * 0.48));
+    const startedAt = performance.now();
+    const step = (now) => {
+      const progress = Math.min(1, (now - startedAt) / duration);
+      const eased = 1 - Math.pow(1 - progress, 4);
+      window.scrollTo(0, startY + distance * eased);
+      if (progress < 1) scrollAnimationId = requestAnimationFrame(step);
+      else scrollAnimationId = 0;
+    };
+    scrollAnimationId = requestAnimationFrame(step);
+  };
 
   const setVideo = (id, { loadMedia = true } = {}) => {
     const video = mediaVideos.find((item) => item.id === id) || mediaVideos[0];
     selectedVideoId = video.id;
     if (loadMedia) {
-      reelPlayer.pause();
-      reelPlayer.src = mediaUrl(video.src);
-      reelPlayer.load();
+      const nextSource = mediaUrl(video.src);
+      if (reelPlayer.getAttribute("src") !== nextSource) {
+        reelPlayer.pause();
+        reelPlayer.src = nextSource;
+        reelPlayer.load();
+      }
     }
     reelPlayer.poster = video.poster;
     reelPlayer.setAttribute("aria-label", `${video.title}视频作品`);
@@ -319,16 +326,34 @@ function renderMediaLab() {
     .map(
       (video, index) => `
         <button type="button" data-video-id="${video.id}" aria-pressed="false">
-          <span>${String(index + 1).padStart(2, "0")}</span>
-          <strong>${video.title}</strong>
-          <small>${video.category}</small>
+          <span class="reel-item-index">${String(index + 1).padStart(2, "0")}</span>
+          <img class="reel-item-thumb" src="${video.poster}" alt="" loading="lazy" decoding="async" />
+          <span class="reel-item-copy"><strong>${video.title}</strong><small>${video.category}</small></span>
           <i>${video.duration}</i>
         </button>`
     )
     .join("");
   reelList.addEventListener("click", (event) => {
     const button = event.target.closest("[data-video-id]");
-    if (button) setVideo(button.dataset.videoId);
+    if (!button) return;
+    const nextVideo = mediaVideos.find((video) => video.id === button.dataset.videoId);
+    const isSameVideo = selectedVideoId === button.dataset.videoId && reelPlayer.getAttribute("src");
+    const token = ++switchToken;
+    if (!isSameVideo && nextVideo && switchCover && switchCoverImage) {
+      switchCoverImage.src = nextVideo.poster;
+      switchCover.classList.add("is-visible");
+    }
+    setVideo(button.dataset.videoId);
+    reelPlayer.play().catch(() => {});
+    scrollToPlayer();
+    if (!isSameVideo && switchCover) {
+      const revealVideo = () => {
+        if (token !== switchToken) return;
+        switchCover.classList.remove("is-visible");
+      };
+      reelPlayer.addEventListener("playing", () => setTimeout(revealVideo, 240), { once: true });
+      setTimeout(revealVideo, 1600);
+    }
   });
 
   const setTrack = (id, { loadMedia = true } = {}) => {
@@ -676,25 +701,6 @@ function initCinematicMotion() {
     }
   });
 
-  const orbitIntro = gsap.timeline({
-    scrollTrigger: { trigger: '.orbit-stage', start: 'top 80%', once: true }
-  });
-  orbitIntro
-    .fromTo('.orbit-track', { autoAlpha: 0, scale: 0.96 }, { autoAlpha: 1, scale: 1, duration: 1.15, ease: 'power3.out' })
-    .fromTo('.orbit-center-copy', { y: 26, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8, ease: 'power3.out' }, 0.18)
-    .fromTo(
-      '.orbit-work-frame',
-      { clipPath: 'inset(0 0 100% 0)' },
-      { clipPath: 'inset(0 0 0% 0)', stagger: 0.09, duration: 0.82, ease: 'power4.inOut' },
-      0.28
-    )
-    .fromTo(
-      '.orbit-work-frame img',
-      { scale: 1.1 },
-      { scale: 1.04, stagger: 0.09, duration: 1, ease: 'power3.out' },
-      0.28
-    );
-
   return true;
 }
 
@@ -765,7 +771,6 @@ function initHeroParallax() {
 
 hydrateProfile();
 hydrateSoundProject();
-renderWorks();
 renderMediaLab();
 renderSkills();
 initExclusiveMediaPlayback();

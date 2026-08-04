@@ -1152,14 +1152,18 @@ button {
 }
 
 .reel-deck {
-  display: grid;
-  grid-template-columns: minmax(0, 1.72fr) minmax(310px, 0.72fr);
-  border: 1px solid var(--line);
+  display: block;
 }
 
 .reel-screen {
   position: relative;
-  min-height: 560px;
+  width: min(100%, calc(177.78svh - 199px));
+  margin-inline: auto;
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  scroll-margin-top: 86px;
+  border: 1px solid var(--line);
   background: #000;
 }
 
@@ -1171,10 +1175,47 @@ button {
   background: #000;
 }
 
+.reel-switch-cover {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(1.012);
+  transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reel-switch-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: scale(1.035);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reel-switch-cover.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.reel-switch-cover.is-visible img { transform: scale(1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .reel-switch-cover,
+  .reel-switch-cover img {
+    transition-duration: 0.01ms;
+  }
+}
+
 .reel-screen-code {
   position: absolute;
   top: 17px;
   left: 18px;
+  z-index: 3;
   padding: 8px 10px;
   background: rgba(0, 0, 0, 0.62);
   color: rgba(255, 255, 255, 0.72);
@@ -1185,17 +1226,14 @@ button {
 
 .reel-panel {
   min-width: 0;
-  display: flex;
-  flex-direction: column;
-  border-left: 1px solid var(--line);
 }
 
 .reel-now {
-  min-height: 180px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 28px;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  padding: 30px 2px 26px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -1207,12 +1245,16 @@ button {
 }
 
 .reel-now h3 {
+  grid-column: 1;
   margin: 12px 0 7px;
   font-family: var(--display);
   font-size: clamp(34px, 3.2vw, 56px);
   font-weight: 300;
   letter-spacing: -0.055em;
 }
+
+.reel-now > span { grid-column: 1; }
+.reel-now > p { grid-column: 2; grid-row: 1 / span 2; align-self: end; padding-bottom: 8px; }
 
 .reel-now p,
 .music-now p {
@@ -1223,11 +1265,12 @@ button {
 }
 
 .reel-list {
-  flex: 1;
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 1.8vw, 28px);
+  padding-top: clamp(24px, 3vw, 44px);
 }
 
-.reel-list button,
 .music-list button {
   min-width: 0;
   display: grid;
@@ -1244,10 +1287,57 @@ button {
   transition: background 0.22s ease, color 0.22s ease;
 }
 
+.reel-list button {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  gap: 13px 10px;
+  align-items: center;
+  padding: 0 0 17px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #0d0f0d;
+  color: #c3c6be;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reel-item-thumb {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  filter: saturate(0.72) brightness(0.78);
+  transition: filter 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reel-item-copy {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reel-item-index { grid-column: 1; grid-row: 2; padding-left: 14px; }
+.reel-list button > i { grid-column: 3; grid-row: 2; padding-right: 14px; }
+
+.reel-list button:hover .reel-item-thumb,
+.reel-list button.is-active .reel-item-thumb {
+  filter: saturate(1) brightness(0.98);
+  transform: scale(1.035);
+}
+
 .reel-list button:last-child,
 .music-list button:last-child {
   border-bottom: 0;
 }
+
+.reel-list button:last-child { border-bottom: 1px solid var(--line); }
 
 .reel-list button:hover,
 .reel-list button.is-active,
@@ -1257,12 +1347,17 @@ button {
   color: var(--paper);
 }
 
+.reel-list button:hover { transform: translateY(-4px); }
+.reel-list button.is-active { border-color: var(--acid); }
+
 .reel-list button.is-active,
 .music-list button.is-active {
   box-shadow: inset 2px 0 var(--acid);
 }
 
-.reel-list span,
+.reel-list button.is-active { box-shadow: none; }
+
+.reel-item-index,
 .music-list span {
   color: var(--acid);
   font-size: 8px;
@@ -2112,7 +2207,7 @@ button {
   .hero-bottom { width: 77%; }
   .sound-case-grid { grid-template-columns: 1.2fr 0.85fr; gap: 52px; }
   .reel-deck { grid-template-columns: minmax(0, 1fr) 320px; }
-  .reel-screen { min-height: 470px; }
+  .reel-screen { min-height: 0; }
   .music-deck { grid-template-columns: 1fr; }
   .about-grid { grid-template-columns: minmax(480px, 1.25fr) minmax(220px, 0.65fr); }
   .about-aside { grid-column: 2; display: grid; grid-template-columns: 1fr auto; gap: 30px; }
@@ -2175,13 +2270,11 @@ button {
   .work-meta { grid-column: 2; padding-top: 2px; }
   .media-head { align-items: flex-start; flex-direction: column; gap: 32px; }
   .media-head > p { text-align: left; }
-  .reel-deck { grid-template-columns: 1fr; }
   .reel-screen { min-height: 0; aspect-ratio: 16 / 9; }
-  .reel-panel { border-top: 1px solid var(--line); border-left: 0; }
-  .reel-now { min-height: 140px; padding: 24px 20px; }
-  .reel-list button,
+  .reel-now { padding: 24px 2px 20px; }
+  .reel-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .reel-list button { grid-template-columns: 24px minmax(0, 1fr) auto; padding: 0 0 14px; }
   .music-list button { grid-template-columns: 28px minmax(0, 1fr) auto; padding: 13px 14px; }
-  .reel-list small,
   .music-list small { display: none; }
   .music-deck { grid-template-columns: 1fr; gap: 55px; padding: 36px 24px; }
   .music-intro { align-items: flex-start; }
@@ -2512,6 +2605,7 @@ button {
   .experience { padding-top: 130px; }
   .embedded-sound-case { padding: 32px 20px; }
   .orbit-works { min-height: 0; }
+  .reel-list { grid-template-columns: 1fr; }
   .orbit-stage { height: auto; overflow: visible; border-bottom: 0; padding-top: 38px; }
   .orbit-track,
   .orbit-center-copy { display: none; }

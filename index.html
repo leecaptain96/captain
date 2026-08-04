@@ -7,8 +7,8 @@
     <meta name="theme-color" content="#080908" />
     <title>李家民｜AI Director & Creative Filmmaker</title>
     <link rel="preload" href="./assets/images/real/poster-dream-hero.jpg" as="image" />
-    <link rel="stylesheet" href="./styles.css?v=20260805-full-reel-list" />
-    <script type="module" src="./src/main.js?v=20260805-remove-forest" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=20260805-smooth-switch" />
+    <script type="module" src="./src/main.js?v=20260805-smooth-switch" defer></script>
   </head>
   <body>
     <div class="cursor" aria-hidden="true"><span>VIEW</span></div>
@@ -20,11 +20,10 @@
       </a>
 
       <nav class="desktop-nav" aria-label="主导航">
-        <a href="#works"><span>01</span>作品</a>
-        <a href="#media"><span>02</span>影音</a>
-        <a href="#about"><span>03</span>关于</a>
-        <a href="#skills"><span>04</span>能力</a>
-        <a href="#contact"><span>05</span>联系</a>
+        <a href="#media"><span>01</span>作品</a>
+        <a href="#about"><span>02</span>关于</a>
+        <a href="#skills"><span>03</span>能力</a>
+        <a href="#contact"><span>04</span>联系</a>
       </nav>
 
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
@@ -34,11 +33,10 @@
 
     <nav class="mobile-menu" id="mobile-menu" aria-label="移动端导航">
       <div class="mobile-menu-inner">
-        <a href="#works"><small>01</small>精选作品</a>
-        <a href="#media"><small>02</small>影像与声音</a>
-        <a href="#about"><small>03</small>关于我</a>
-        <a href="#skills"><small>04</small>创作能力</a>
-        <a href="#contact"><small>05</small>联系合作</a>
+        <a href="#media"><small>01</small>影像与声音</a>
+        <a href="#about"><small>02</small>关于我</a>
+        <a href="#skills"><small>03</small>创作能力</a>
+        <a href="#contact"><small>04</small>联系合作</a>
       </div>
     </nav>
 
@@ -80,7 +78,7 @@
           <div class="hero-bottom reveal delay-3">
             <p>编剧 / 导演 / 摄影 / 剪辑 / 音乐制作人</p>
             <div class="hero-actions">
-              <a class="button button-solid" href="#works">查看作品 <span>↘</span></a>
+              <a class="button button-solid" href="#media">查看作品 <span>↘</span></a>
               <a class="button button-line" href="#contact">联系我 <span>↗</span></a>
             </div>
           </div>
@@ -132,42 +130,20 @@
         </div>
       </section>
 
-      <section class="works orbit-works section-pad" id="works" aria-labelledby="works-title" data-motion-title="SELECTED / WORKS">
-        <div class="wrap">
-          <header class="works-head">
-            <div>
-              <div class="section-id"><span>02</span> / SELECTED WORKS</div>
-              <h2 id="works-title" class="display-title">精选作品<span>。</span></h2>
-            </div>
-            <p>LIVE ACTION / AI FILM / COMMERCIAL<br />CLICK AN IMAGE TO OPEN THE ARCHIVE</p>
-          </header>
-
-          <div class="orbit-stage" data-orbit-stage>
-            <div class="orbit-track" aria-hidden="true"></div>
-            <div class="orbit-work-list" data-works></div>
-            <div class="orbit-center-copy">
-              <span>06 PROJECTS / 2026</span>
-              <strong>IDEA<br />IN MOTION</strong>
-              <small>HOVER TO PAUSE · CLICK TO VIEW</small>
-            </div>
-          </div>
-          <p class="works-footnote">REAL WORKS · LOCAL VIDEO PREVIEWS · PROJECT ARCHIVE</p>
-        </div>
-      </section>
-
       <section class="media-lab section-pad" id="media" aria-labelledby="media-title" data-motion-title="IMAGE / SOUND">
         <div class="wrap">
           <header class="media-head reveal">
             <div>
-              <div class="section-id"><span>03</span> / IMAGE & SOUND LAB</div>
+              <div class="section-id"><span>02</span> / IMAGE & SOUND LAB</div>
               <h2 id="media-title" class="display-title">影像与声音<span>。</span></h2>
             </div>
-            <p>8 VIDEO WORKS / 7 MUSIC TRACKS<br />LIVE ACTION + AI WORKFLOWS</p>
+            <p><span data-video-count>15</span> VIDEO WORKS / 7 MUSIC TRACKS<br />LIVE ACTION + AI WORKFLOWS</p>
           </header>
 
           <div class="reel-deck reveal">
             <div class="reel-screen">
               <video data-reel-player controls playsinline preload="metadata"></video>
+              <div class="reel-switch-cover" data-reel-switch-cover aria-hidden="true"><img src="" alt="" /></div>
               <span class="reel-screen-code" data-reel-code>VIDEO / LOCAL PREVIEW</span>
             </div>
             <div class="reel-panel">
@@ -215,7 +191,7 @@
       <section class="skills section-pad" id="skills" aria-labelledby="skills-title" data-motion-title="CAPABILITIES">
         <div class="wrap skills-layout">
           <div class="skills-intro">
-            <div class="section-id reveal"><span>04</span> / CAPABILITIES</div>
+            <div class="section-id reveal"><span>03</span> / CAPABILITIES</div>
             <h2 id="skills-title" class="display-title reveal">会得多，<br />也学得快<span>。</span></h2>
             <p class="reveal">从热点与创意，到影像、音乐和最终交付；新工具会迅速变成可复用的生产力。</p>
             <div class="orbit-mark reveal" aria-hidden="true">
@@ -239,13 +215,13 @@
 
       <section class="contact" id="contact" aria-labelledby="contact-title" data-motion-title="CONTACT / CREATE">
         <div class="contact-bridge" aria-hidden="true">
-          <span>05 / NEXT CHAPTER</span>
+          <span>04 / NEXT CHAPTER</span>
           <strong>CONTACT &amp; COLLABORATION</strong>
           <i>继续向下 ↓</i>
         </div>
         <div class="contact-bg" aria-hidden="true"></div>
         <div class="wrap contact-inner">
-          <div class="section-id reveal"><span>05</span> / CONTACT</div>
+          <div class="section-id reveal"><span>04</span> / CONTACT</div>
           <p class="contact-kicker reveal">LET'S MAKE THE INVISIBLE VISIBLE.</p>
           <h2 id="contact-title" class="contact-title reveal">有一个画面，<br /><em>值得被拍出来。</em></h2>
           <div class="contact-grid reveal">
