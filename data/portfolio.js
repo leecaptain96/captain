@@ -321,9 +321,8 @@ export const aiVideos = [
   { id: "creative-point-2", title: "创意点 2", category: "AI 奢侈品视觉", duration: "00:09", src: "./assets/videos/ai/creative-point-2.mp4", poster: "./assets/images/real/poster-creative-point-2.jpg" },
   { id: "flower-car", title: "鲜花车", category: "AI 奇幻视觉", duration: "00:11", src: "./assets/videos/ai/flower-car.mp4", poster: "./assets/images/real/poster-flower-car.jpg" },
   { id: "mr-coward", title: "胆小鬼先生", category: "AI 叙事短片", duration: "00:17", src: "./assets/videos/ai/mr-coward.mp4", poster: "./assets/images/real/poster-mr-coward.jpg" },
-  { id: "anti-gravity", title: "反重力", category: "AI 科幻视觉", duration: "00:13", src: "./assets/videos/ai/anti-gravity.mp4", poster: "./assets/images/real/poster-anti-gravity.jpg" },
   { id: "chinese-style", title: "国风", category: "AI 国风视觉", duration: "00:15", src: "./assets/videos/ai/chinese-style.mp4", poster: "./assets/images/real/poster-chinese-style.jpg" },
-  { id: "mystic-forest", title: "神秘森林", category: "AI 奇幻叙事", duration: "00:15", src: "./assets/videos/ai/mystic-forest.mp4", poster: "./assets/images/real/poster-mystic-forest.jpg" }
+  
 ];
 
 export const musicTracks = [
