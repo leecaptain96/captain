@@ -560,7 +560,7 @@ button {
 }
 
 .section-pad {
-  padding-block: clamp(110px, 12vw, 210px);
+  padding-block: clamp(96px, 9vw, 160px);
 }
 
 .section-id {
@@ -1135,7 +1135,7 @@ button {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: clamp(60px, 8vw, 120px);
+  margin-bottom: clamp(42px, 5vw, 72px);
 }
 
 .media-head .section-id {
@@ -1312,7 +1312,7 @@ button {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
-  padding: 30px 2px 26px;
+  padding: 26px 2px 22px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -1346,8 +1346,8 @@ button {
 .reel-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(14px, 1.8vw, 28px);
-  padding-top: clamp(24px, 3vw, 44px);
+  gap: clamp(14px, 1.5vw, 24px);
+  padding-top: clamp(22px, 2.5vw, 36px);
 }
 
 .music-list button {
@@ -1492,8 +1492,8 @@ button {
   display: grid;
   grid-template-columns: minmax(300px, 0.8fr) minmax(560px, 1.4fr);
   gap: clamp(55px, 8vw, 130px);
-  margin-top: clamp(80px, 10vw, 150px);
-  padding: clamp(50px, 6vw, 90px);
+  margin-top: clamp(64px, 7vw, 110px);
+  padding: clamp(42px, 5vw, 72px);
   background: var(--paper);
   color: var(--ink);
 }
@@ -1726,7 +1726,7 @@ button {
 }
 
 .experience {
-  padding: clamp(220px, 20vw, 330px) 0 clamp(100px, 11vw, 180px);
+  padding: clamp(150px, 14vw, 220px) 0 clamp(90px, 9vw, 140px);
   background: #11130f;
 }
 
@@ -1772,7 +1772,7 @@ button {
 
 .contact {
   position: relative;
-  min-height: 100svh;
+  min-height: max(100svh, 820px);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -1831,13 +1831,17 @@ button {
 .contact-bg::after { inset: 26%; background: radial-gradient(circle at 50% 40%, rgba(181, 244, 62, 0.06), transparent 54%); }
 
 .contact-inner {
-  position: relative;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
   z-index: 1;
-  flex: 1;
+  flex: 0 0 auto;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-top: clamp(145px, 15vh, 185px);
+  padding-top: clamp(120px, 13vh, 155px);
   padding-bottom: 80px;
 }
 
@@ -1905,8 +1909,18 @@ button {
 .contact-grid a { transition: background 0.25s ease; }
 .contact-grid a:hover { background: rgba(181, 244, 62, 0.07); }
 
+/* Contact details must remain visible when opened directly through #contact. */
+.contact .reveal {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
 .site-footer {
-  position: relative;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: 1;
   min-height: 72px;
   display: grid;
@@ -2395,7 +2409,9 @@ button {
   .experience-meta { grid-column: 1; flex-direction: column; }
   .contact-bridge { grid-template-columns: 1fr auto; gap: 14px; }
   .contact-bridge strong { display: none; }
-  .contact-inner { padding-top: 110px; }
+  .contact { min-height: 0; }
+  .contact-inner { position: relative; padding-top: 110px; }
+  .site-footer { position: relative; margin-top: 20px; }
   .contact-title { font-size: clamp(56px, 15vw, 88px); }
   .contact-grid { grid-template-columns: 1fr; }
   .contact-grid > * + * { border-top: 1px solid var(--line); border-left: 0; }
@@ -2435,7 +2451,7 @@ button {
   isolation: isolate;
 }
 
-[data-motion-title]:not(.hero) > :not(.kinetic-title) {
+[data-motion-title]:not(.hero) > :not(.kinetic-title):not(.contact-bridge):not(.contact-bg):not(.contact-inner) {
   position: relative;
   z-index: 2;
 }
@@ -2668,15 +2684,15 @@ button {
 .sound-case-visual img { height: 108%; }
 
 .embedded-sound-case {
-  margin-top: clamp(80px, 11vw, 170px);
-  padding: clamp(44px, 6vw, 92px);
+  margin-top: clamp(68px, 8vw, 118px);
+  padding: clamp(42px, 5vw, 72px);
   border: 1px solid rgba(8, 9, 8, 0.16);
   background: var(--paper);
   color: var(--ink);
 }
 
 .embedded-sound-case .sound-case-grid {
-  margin-top: clamp(46px, 6vw, 86px);
+  margin-top: clamp(38px, 4vw, 62px);
   max-width: none;
   grid-template-columns: minmax(0, 1.65fr) minmax(300px, 0.62fr);
   gap: clamp(36px, 5vw, 82px);

@@ -1,5 +1,5 @@
 import { gsap as gsapEngine, ScrollTrigger as ScrollTriggerPlugin } from "../assets/vendor/gsap-bundle.min.js?v=20260630-perf";
-import { aiVideos, musicTracks, profile, skills, soundProject, works } from "../data/portfolio.js?v=20260805-move-creative";
+import { aiVideos, musicTracks, profile, skills, soundProject, works } from "../data/portfolio.js?v=20260902-curated-six";
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
@@ -645,7 +645,10 @@ function initCinematicMotion() {
   const heroLines = $$('.hero-title > span');
   const intro = gsap.timeline({
     defaults: { ease: 'power4.inOut' },
-    onComplete: () => ScrollTrigger.refresh()
+    onComplete: () => {
+      ScrollTrigger.refresh();
+      revealLinkedSection();
+    }
   });
 
   gsap.set(['.site-header', '.hero-kicker', '.hero-bottom', '.scroll-cue', '.hero-rail'], { autoAlpha: 0 });
@@ -728,6 +731,26 @@ function initCinematicMotion() {
       );
     }
   });
+
+  const revealLinkedSection = () => {
+    if (!location.hash) return;
+    const section = $(location.hash);
+    if (!section) return;
+    const linkedTargets = $$(
+      '.section-id, .eyebrow, .display-title, .lead, .body-copy, .about-aside, .fact, .sound-case-copy > *, .reel-panel > *, .music-intro, .music-player, .skill-item, .experience-inner > *, .contact-kicker, .contact-title, .contact-grid > *',
+      section
+    );
+    gsap.set(linkedTargets, { y: 0, autoAlpha: 1 });
+    const kinetic = $('.kinetic-title', section);
+    if (kinetic) gsap.set(kinetic, { xPercent: 0, autoAlpha: 1 });
+    $$('.sound-case-visual, .reel-screen', section).forEach((frame) => {
+      gsap.set(frame, { clipPath: 'inset(0 0% 0 0)' });
+      const media = $('img, video', frame);
+      if (media) gsap.set(media, { scale: 1, xPercent: 0 });
+    });
+  };
+
+  requestAnimationFrame(() => requestAnimationFrame(revealLinkedSection));
 
   return true;
 }

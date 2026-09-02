@@ -41,6 +41,19 @@ export const soundProject = {
   ]
 };
 
+const removedVideoIds = new Set([
+  "bar-space",
+  "la-monster",
+  "live-action-ad",
+  "chinese-style",
+  "white-robe",
+  "foundation",
+  "soda-ad",
+  "creative-point",
+  "creative-point-2",
+  "creative-point-3"
+]);
+
 export const works = [
   {
     id: "bar-space",
@@ -303,9 +316,9 @@ export const works = [
       "./assets/images/real/frame-creative-point-2-03.jpg"
     ]
   }
-];
+].filter(({ id }) => !removedVideoIds.has(id));
 
-export const featuredWorkIds = ["la-monster", "fall", "dark-dragon", "anime-fight", "foundation", "creative-point-2"];
+export const featuredWorkIds = ["fall", "dark-dragon", "anime-fight"];
 
 export const aiVideos = [
   { id: "la-monster", title: "洛杉矶怪兽", category: "AI 城市科幻", duration: "00:27", src: "./assets/videos/ai/la-monster.mp4", poster: "./assets/images/real/poster-la-monster.jpg" },
@@ -322,7 +335,7 @@ export const aiVideos = [
   { id: "chinese-style", title: "国风", category: "AI 国风视觉", duration: "00:15", src: "./assets/videos/ai/chinese-style.mp4", poster: "./assets/images/real/poster-chinese-style.jpg" },
   { id: "creative-point", title: "创意点", category: "AI 超现实视觉", duration: "00:06", src: "./assets/videos/ai/creative-point.mp4", poster: "./assets/images/real/poster-creative-point.jpg" },
   { id: "creative-point-2", title: "创意点 2", category: "AI 奢侈品视觉", duration: "00:09", src: "./assets/videos/ai/creative-point-2.mp4", poster: "./assets/images/real/poster-creative-point-2.jpg" }
-];
+].filter(({ id }) => !removedVideoIds.has(id));
 
 export const musicTracks = [
   { id: "narrative", title: "叙事", mood: "Narrative", duration: "02:30", src: "./assets/audio/narrative.mp3" },
