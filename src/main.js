@@ -244,6 +244,7 @@ function initAmbientMotion() {
 function renderMediaLab() {
   const reelPlayer = $("[data-reel-player]");
   const reelScreen = reelPlayer.closest(".reel-screen");
+  const mobileNativeSeek = $("[data-mobile-native-seek]");
   const switchCover = $("[data-reel-switch-cover]");
   const switchCoverImage = switchCover ? $("img", switchCover) : null;
   const reelNow = $("[data-reel-now]");
@@ -317,6 +318,23 @@ function renderMediaLab() {
   }, true);
   reelPlayer.addEventListener("contextmenu", (event) => {
     if (isFastPlaying) event.preventDefault();
+  });
+
+  const seekFromPointer = (event) => {
+    if (!Number.isFinite(reelPlayer.duration) || reelPlayer.duration <= 0) return;
+    const bounds = mobileNativeSeek.getBoundingClientRect();
+    const progress = Math.min(1, Math.max(0, (event.clientX - bounds.left) / bounds.width));
+    reelPlayer.currentTime = progress * reelPlayer.duration;
+  };
+  mobileNativeSeek?.addEventListener("pointerdown", (event) => {
+    event.preventDefault();
+    mobileNativeSeek.setPointerCapture?.(event.pointerId);
+    seekFromPointer(event);
+  });
+  mobileNativeSeek?.addEventListener("pointermove", (event) => {
+    if (!mobileNativeSeek.hasPointerCapture?.(event.pointerId)) return;
+    event.preventDefault();
+    seekFromPointer(event);
   });
 
   const scrollToPlayer = () => {
