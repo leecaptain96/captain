@@ -249,6 +249,7 @@ function renderMediaLab() {
   const reelNow = $("[data-reel-now]");
   const reelList = $("[data-reel-list]");
   const reelCode = $("[data-reel-code]");
+  const reelSpeedHint = $("[data-reel-speed-hint]");
   const reelPrev = $("[data-reel-prev]");
   const reelPrevTitle = $("[data-reel-prev-title]");
   const reelNext = $("[data-reel-next]");
@@ -279,6 +280,44 @@ function renderMediaLab() {
   let selectedTrackId = musicTracks[0].id;
   let scrollAnimationId = 0;
   let switchToken = 0;
+  let holdTimer = 0;
+  let isFastPlaying = false;
+  let suppressNextClick = false;
+  const stopFastPlayback = () => {
+    window.clearTimeout(holdTimer);
+    holdTimer = 0;
+    if (!isFastPlaying) return;
+    reelPlayer.playbackRate = 1;
+    isFastPlaying = false;
+    reelSpeedHint?.classList.remove("is-visible");
+    window.setTimeout(() => { suppressNextClick = false; }, 500);
+  };
+  reelPlayer.addEventListener("pointerdown", (event) => {
+    const bounds = reelPlayer.getBoundingClientRect();
+    // Reserve the native control strip for timeline dragging and player buttons.
+    if (event.clientY > bounds.bottom - 64 || reelPlayer.paused) return;
+    window.clearTimeout(holdTimer);
+    holdTimer = window.setTimeout(() => {
+      reelPlayer.playbackRate = 2;
+      isFastPlaying = true;
+      suppressNextClick = true;
+      reelSpeedHint?.classList.add("is-visible");
+    }, 420);
+  });
+  ["pointerup", "pointercancel", "pointerleave"].forEach((eventName) => {
+    reelPlayer.addEventListener(eventName, stopFastPlayback);
+  });
+  reelPlayer.addEventListener("pause", stopFastPlayback);
+  reelPlayer.addEventListener("ended", stopFastPlayback);
+  reelPlayer.addEventListener("click", (event) => {
+    if (!suppressNextClick) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    suppressNextClick = false;
+  }, true);
+  reelPlayer.addEventListener("contextmenu", (event) => {
+    if (isFastPlaying) event.preventDefault();
+  });
 
   const scrollToPlayer = () => {
     if (!reelScreen) return;
@@ -309,6 +348,7 @@ function renderMediaLab() {
     const video = mediaVideos.find((item) => item.id === id) || mediaVideos[0];
     selectedVideoId = video.id;
     if (loadMedia) {
+      stopFastPlayback();
       const nextSource = mediaUrl(video.src);
       if (reelPlayer.getAttribute("src") !== nextSource) {
         reelPlayer.pause();

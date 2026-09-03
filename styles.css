@@ -1225,6 +1225,28 @@ button {
   pointer-events: none;
 }
 
+.reel-speed-hint {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  z-index: 5;
+  padding: 7px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(5, 7, 6, 0.62);
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -5px);
+  transition: opacity 0.2s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reel-speed-hint.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
 .reel-nav {
   position: absolute;
   top: 16px;
