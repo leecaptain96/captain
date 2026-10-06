@@ -1,5 +1,5 @@
 import { gsap as gsapEngine, ScrollTrigger as ScrollTriggerPlugin } from "../assets/vendor/gsap-bundle.min.js?v=20260630-perf";
-import { aiVideos, visualStudies, profile, skills, soundProject, works } from "../data/portfolio.js?v=20261006-introduction";
+import { aiVideos, visualStudies, profile, skills, soundProject, works } from "../data/portfolio.js?v=20261006-video-order";
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
@@ -259,10 +259,16 @@ function renderMediaLab() {
   const portraitStudyIds = new Set(["creative-point-2", "creative-point-3", "soda-ad"]);
   const portraitStudies = visualStudies.filter((study) => portraitStudyIds.has(study.id));
   const landscapeStudies = visualStudies.filter((study) => !portraitStudyIds.has(study.id));
+  const stillVersions = {
+    'chinese-style': '20261006-elder-still',
+    'la-monster': '20261006-film-balanced',
+    'mouse-visual': '20261006-mouse-use',
+    'soda-ad': '20261006-soda-ending'
+  };
   const renderStudy = (study, index) => `
     <figure class="visual-study">
       <div class="visual-study-frames${study.frameCount === 1 ? ' is-single' : ''}">
-        ${Array.from({ length: study.frameCount || 2 }, (_, frame) => `<img src="./assets/images/aesthetic/${study.id}-${frame + 1}.webp?v=20261006-gallery-layout" alt="${study.title} AI 视频截图 ${frame + 1}：${study.direction}" loading="lazy" decoding="async" />`).join('')}
+        ${Array.from({ length: study.frameCount || 2 }, (_, frame) => `<img src="./assets/images/aesthetic/${study.id}-${frame + 1}.webp?v=${stillVersions[study.id] || '20261006-gallery-layout'}" alt="${study.title} AI 视频截图 ${frame + 1}：${study.direction}" loading="lazy" decoding="async" />`).join('')}
       </div>
       <figcaption><span>${String(index + 1).padStart(2, "0")}</span><div><h4>${study.title}</h4><p>${study.direction}</p></div></figcaption>
     </figure>`;

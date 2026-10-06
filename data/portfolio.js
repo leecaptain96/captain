@@ -327,7 +327,6 @@ export const featuredWorkIds = ["fall", "dark-dragon", "anime-fight"];
 export const aiVideos = [
   { id: "drink-tvc", title: "饮品 TVC", category: "AI 饮品广告", duration: "00:30", src: "./assets/videos/ai/drink-tvc.mp4", poster: "./assets/images/aesthetic/drink-tvc-1.webp" },
   { id: "la-monster", title: "洛杉矶怪兽", category: "AI 城市科幻", duration: "00:27", src: "./assets/videos/ai/la-monster.mp4", poster: "./assets/images/real/poster-la-monster.jpg" },
-  { id: "fall", title: "真人科幻", category: "AI 真人科幻", duration: "00:55", src: "./assets/videos/ai/fall.mp4", poster: "./assets/images/real/poster-fall.jpg" },
   { id: "white-rose", title: "剧情", category: "AI 剧情叙事", duration: "01:03", src: "./assets/videos/ai/white-rose.mp4", poster: "./assets/images/real/poster-white-rose.jpg" },
   { id: "anime-fight", title: "日漫打斗", category: "AI 动漫", duration: "00:30", src: "./assets/videos/ai/anime-fight.mp4", poster: "./assets/images/real/poster-anime-fight.jpg" },
   { id: "dark-dragon", title: "动漫", category: "AI 动漫", duration: "00:42", src: "./assets/videos/ai/dark-dragon.mp4", poster: "./assets/images/real/poster-dark-dragon.jpg" },
@@ -337,6 +336,7 @@ export const aiVideos = [
   { id: "live-action-ad", title: "骑马", category: "AI 广告视觉", duration: "00:15", src: "./assets/videos/ai/live-action-ad.mp4", poster: "./assets/images/real/poster-live-action-ad.jpg" },
   { id: "flower-car", title: "文艺广告", category: "AI 文艺广告", duration: "00:11", src: "./assets/videos/ai/flower-car.mp4", poster: "./assets/images/real/poster-flower-car.jpg" },
   { id: "mr-coward", title: "胆小鬼先生", category: "AI 叙事短片", duration: "00:17", src: "./assets/videos/ai/mr-coward.mp4", poster: "./assets/images/real/poster-mr-coward.jpg" },
+  { id: "fall", title: "真人科幻", category: "AI 真人科幻", duration: "00:55", src: "./assets/videos/ai/fall.mp4", poster: "./assets/images/real/poster-fall.jpg" },
   { id: "chinese-style", title: "国风", category: "AI 国风视觉", duration: "00:15", src: "./assets/videos/ai/chinese-style.mp4", poster: "./assets/images/real/poster-chinese-style.jpg" },
   { id: "creative-point", title: "创意点", category: "AI 超现实视觉", duration: "00:06", src: "./assets/videos/ai/creative-point.mp4", poster: "./assets/images/real/poster-creative-point.jpg" },
   { id: "creative-point-2", title: "创意点 2", category: "AI 奢侈品视觉", duration: "00:09", src: "./assets/videos/ai/creative-point-2.mp4", poster: "./assets/images/real/poster-creative-point-2.jpg" }

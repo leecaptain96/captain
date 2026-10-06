@@ -1219,6 +1219,8 @@ button {
 .shoot-edit-studies .shoot-edit-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: start; }
 .shoot-edit-story { grid-column: span 2; }
 .shoot-edit-landscape { grid-column: 1 / -1; }
+.shoot-edit-video { width: min(100%, 900px); justify-self: center; }
+.shoot-edit-player video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; background: #000; }
 .shoot-edit-studies .shoot-edit-grid > :not(.shoot-edit-landscape) .visual-study-frames img { aspect-ratio: 9 / 16; object-fit: contain; }
 @media (max-width: 780px) {
   .shoot-edit-studies .shoot-edit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 16px; }
