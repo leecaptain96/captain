@@ -3,9 +3,9 @@ export const profile = {
   romanizedName: "LI JIAMIN",
   title: "AI Director · Creative Filmmaker",
   introduction:
-    "我是一名编剧、导演、摄影、剪辑、音乐制作人。",
+    "我是一名兼具幕后制作与出镜表达能力的内容创作者，覆盖编剧、导演、摄影、剪辑与音乐制作。",
   secondParagraph:
-    "长期接触短视频行业，对平台内容节奏、热点抓取和传播包装有敏锐判断。我学习新工具很快，也乐于持续探索新技术，并把它们沉淀成更高效、更稳定的创作工作流。",
+    "从音乐达人的录音混音，到品牌短视频的脚本、拍摄剪辑，再到电商直播与个人账号运营，我积累了制作、表达和传播三端的实践。现在把 AI 影像融入创作流程，结合镜头设计、真实拍摄与声音制作完成内容，也能参与产品话术、视频分发、数据分析和甲方沟通。",
   capabilities: [
     "创意策划",
     "剧本创作",
@@ -16,7 +16,11 @@ export const profile = {
     "后期剪辑",
     "声音设计",
     "热点洞察",
-    "电影质感控制"
+    "电影质感控制",
+    "出镜表达",
+    "产品话术",
+    "账号运营",
+    "数据分析"
   ],
   fields: ["品牌广告", "AI短视频", "AI叙事短片", "AI视觉设计", "声音制作", "创意策划"],
   contact: {
@@ -321,30 +325,43 @@ export const works = [
 export const featuredWorkIds = ["fall", "dark-dragon", "anime-fight"];
 
 export const aiVideos = [
+  { id: "drink-tvc", title: "饮品 TVC", category: "AI 饮品广告", duration: "00:30", src: "./assets/videos/ai/drink-tvc.mp4", poster: "./assets/images/aesthetic/drink-tvc-1.webp" },
   { id: "la-monster", title: "洛杉矶怪兽", category: "AI 城市科幻", duration: "00:27", src: "./assets/videos/ai/la-monster.mp4", poster: "./assets/images/real/poster-la-monster.jpg" },
-  { id: "fall", title: "坠落", category: "AI 科幻", duration: "00:55", src: "./assets/videos/ai/fall.mp4", poster: "./assets/images/real/poster-fall.jpg" },
-  { id: "white-rose", title: "白玫瑰", category: "AI 叙事", duration: "01:03", src: "./assets/videos/ai/white-rose.mp4", poster: "./assets/images/real/poster-white-rose.jpg" },
+  { id: "fall", title: "真人科幻", category: "AI 真人科幻", duration: "00:55", src: "./assets/videos/ai/fall.mp4", poster: "./assets/images/real/poster-fall.jpg" },
+  { id: "white-rose", title: "剧情", category: "AI 剧情叙事", duration: "01:03", src: "./assets/videos/ai/white-rose.mp4", poster: "./assets/images/real/poster-white-rose.jpg" },
   { id: "anime-fight", title: "日漫打斗", category: "AI 动漫", duration: "00:30", src: "./assets/videos/ai/anime-fight.mp4", poster: "./assets/images/real/poster-anime-fight.jpg" },
-  { id: "dark-dragon", title: "暗黑龙战士", category: "AI 科幻", duration: "00:42", src: "./assets/videos/ai/dark-dragon.mp4", poster: "./assets/images/real/poster-dark-dragon.jpg" },
+  { id: "dark-dragon", title: "动漫", category: "AI 动漫", duration: "00:42", src: "./assets/videos/ai/dark-dragon.mp4", poster: "./assets/images/real/poster-dark-dragon.jpg" },
   { id: "white-robe", title: "白袍", category: "AI 动漫", duration: "00:21", src: "./assets/videos/ai/white-robe.mp4", poster: "./assets/images/real/poster-white-robe.jpg" },
   { id: "foundation", title: "粉底液电商广告", category: "AI 电商", duration: "00:15", src: "./assets/videos/ai/foundation.mp4", poster: "./assets/images/real/poster-foundation.jpg" },
   { id: "soda-ad", title: "汽水广告", category: "AI 饮料广告", duration: "00:15", src: "./assets/videos/ai/soda-ad.mp4", poster: "./assets/images/real/poster-soda-ad.jpg" },
   { id: "live-action-ad", title: "骑马", category: "AI 广告视觉", duration: "00:15", src: "./assets/videos/ai/live-action-ad.mp4", poster: "./assets/images/real/poster-live-action-ad.jpg" },
-  { id: "flower-car", title: "鲜花车", category: "AI 奇幻视觉", duration: "00:11", src: "./assets/videos/ai/flower-car.mp4", poster: "./assets/images/real/poster-flower-car.jpg" },
+  { id: "flower-car", title: "文艺广告", category: "AI 文艺广告", duration: "00:11", src: "./assets/videos/ai/flower-car.mp4", poster: "./assets/images/real/poster-flower-car.jpg" },
   { id: "mr-coward", title: "胆小鬼先生", category: "AI 叙事短片", duration: "00:17", src: "./assets/videos/ai/mr-coward.mp4", poster: "./assets/images/real/poster-mr-coward.jpg" },
   { id: "chinese-style", title: "国风", category: "AI 国风视觉", duration: "00:15", src: "./assets/videos/ai/chinese-style.mp4", poster: "./assets/images/real/poster-chinese-style.jpg" },
   { id: "creative-point", title: "创意点", category: "AI 超现实视觉", duration: "00:06", src: "./assets/videos/ai/creative-point.mp4", poster: "./assets/images/real/poster-creative-point.jpg" },
   { id: "creative-point-2", title: "创意点 2", category: "AI 奢侈品视觉", duration: "00:09", src: "./assets/videos/ai/creative-point-2.mp4", poster: "./assets/images/real/poster-creative-point-2.jpg" }
 ].filter(({ id }) => !removedVideoIds.has(id));
 
-export const musicTracks = [
-  { id: "narrative", title: "叙事", mood: "Narrative", duration: "02:30", src: "./assets/audio/narrative.mp3" },
-  { id: "transition", title: "开场 / 过场", mood: "Opening", duration: "03:18", src: "./assets/audio/transition.mp3" },
-  { id: "suspense", title: "悬疑", mood: "Suspense", duration: "01:28", src: "./assets/audio/suspense.mp3" },
-  { id: "urban-zen", title: "新国风 · 都市禅意", mood: "Neo Chinese", duration: "02:09", src: "./assets/audio/urban-zen.mp3" },
-  { id: "pop-vocal", title: "流行（有歌词）", mood: "Pop Vocal", duration: "00:47", src: "./assets/audio/pop-vocal.mp3" },
-  { id: "urban-romance", title: "言情 · 都市类", mood: "Romance", duration: "01:53", src: "./assets/audio/urban-romance.mp3" },
-  { id: "urban-luxury", title: "都市轻奢 · 随性生活感", mood: "Urban Lifestyle", duration: "01:58", src: "./assets/audio/urban-luxury.mp3" }
+export const visualStudies = [
+  { id: "creative-point-2", title: "广告", direction: "奢侈品视觉 · 仪式感与对称构图" },
+  { id: "foundation", title: "电商", direction: "电商视觉 · 材质与暖金色光影" },
+  { id: "car-visual", title: "汽车广告", direction: "AI 汽车广告 · 场景尺度与车身光影" },
+  { id: "watch-visual", title: "手表广告", direction: "AI 产品广告 · 运动生活与产品质感" },
+  { id: "mouse-visual", title: "鼠标电商", direction: "AI 科技视觉 · 材质细节与光轨构图" },
+  { id: "creative-point-3", title: "创意", direction: "超现实视觉 · 身体与天空的空间转换" },
+  { id: "white-robe", title: "动漫", direction: "幻想世界 · 建筑尺度与空气透视" },
+  { id: "chinese-style", title: "国风", direction: "东方水墨 · 留白与笔触" },
+  { id: "la-monster", title: "电影", direction: "电影感城市 · 自然光与人物情绪" },
+  { id: "soda-ad", title: "汽水广告", direction: "饮品视觉 · 青绿色调与城市生活" },
+  { id: "bullet-time", title: "日系", direction: "日系影像 · 海岸、自然光与动态姿态", frameCount: 1 },
+  { id: "japanese-light", title: "日系光影", direction: "AI 日系影像 · 海岸留白与暖光人像" },
+  { id: "creative-point", title: "剧情广告", direction: "超现实创意 · 日常物件与视觉反差" },
+  { id: "tell-2", title: "电影短片", direction: "电影叙事 · 暖冷对比与人物关系" },
+  { id: "hamster", title: "动漫剧情", direction: "拟人角色 · 复古服饰与奇幻空间" },
+  { id: "korean-drama", title: "韩剧剧情", direction: "韩剧氛围 · 雨夜光影与人物互动" },
+  { id: "dream-study", title: "意识流", direction: "梦境视觉 · 超现实意象与冷色空间" },
+  { id: "mystic-forest", title: "神秘森林", direction: "奇幻美术 · 森林层次与冷暖光影", frameCount: 1 },
+  { id: "live-ad-study", title: "真人广告类", direction: "广告影像 · 山野场景与人物质感" }
 ];
 
 export const skills = [
@@ -352,8 +369,9 @@ export const skills = [
   { number: "02", title: "商业广告创意", english: "COMMERCIAL CONCEPT", detail: "把品牌命题转化为可拍、可传播、可交付的视觉概念。" },
   { number: "03", title: "分镜与镜头设计", english: "STORYBOARDING", detail: "用景别、运动、视线与节奏预先建立成片逻辑。" },
   { number: "04", title: "真实感画面控制", english: "VISUAL REALISM", detail: "控制光线、材质、镜头参数与表演细节，减少 AI 感。" },
-  { number: "05", title: "短视频编导与热点洞察", english: "SHORT-FORM STRATEGY", detail: "熟悉平台节奏，能快速捕捉热点并转化为内容选题和开场钩子。" },
+  { number: "05", title: "编导、出镜与账号运营", english: "CONTENT & PERFORMANCE", detail: "有脚本输出、剧情参演、一饰多角与个人账号运营经验，参与视频投放和数据分析。" },
   { number: "06", title: "后期剪辑与包装", english: "EDIT & FINISH", detail: "剪辑、调色、字幕包装与节奏控制的一体化执行。" },
-  { number: "07", title: "声音与 AI 音乐制作", english: "SOUND & AI MUSIC", detail: "覆盖前期录音、编曲、声音设计、后期混音与 AI 音乐。" },
-  { number: "08", title: "快速学习与工作流优化", english: "RAPID LEARNING", detail: "快速掌握新工具并沉淀稳定流程，持续提升创作效率与交付质量。" }
+  { number: "07", title: "录音混音与 AI 音乐", english: "RECORDING & MIX", detail: "有音乐达人录音混音、微电影同期与后期声音制作经验；熟悉 Cubase、FabFilter、Waves 等插件及软音源，会使用 AI 制作音乐。" },
+  { number: "08", title: "电商内容与直播表达", english: "COMMERCE & LIVE", detail: "做过电商产品拍摄、剪辑包装与内容分发，也有 Shopee 直播讲解、产品话术整理、选品协助和客户维护经验。" },
+  { number: "09", title: "快速学习与团队协作", english: "WORKFLOW & COLLABORATION", detail: "把新工具融入制作流程，有对接甲方与跨团队协作经验，能够结合制作任务与内容反馈调整执行。" }
 ];

@@ -1,5 +1,5 @@
 import { gsap as gsapEngine, ScrollTrigger as ScrollTriggerPlugin } from "../assets/vendor/gsap-bundle.min.js?v=20260630-perf";
-import { aiVideos, musicTracks, profile, skills, soundProject, works } from "../data/portfolio.js?v=20260902-curated-six";
+import { aiVideos, visualStudies, profile, skills, soundProject, works } from "../data/portfolio.js?v=20261006-profile-strengths";
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
@@ -243,6 +243,7 @@ function initAmbientMotion() {
 
 function renderMediaLab() {
   const reelPlayer = $("[data-reel-player]");
+  $("[data-visual-count]").textContent = String(visualStudies.length);
   const reelScreen = reelPlayer.closest(".reel-screen");
   const mobileNativeSeek = $("[data-mobile-native-seek]");
   const switchCover = $("[data-reel-switch-cover]");
@@ -255,9 +256,27 @@ function renderMediaLab() {
   const reelPrevTitle = $("[data-reel-prev-title]");
   const reelNext = $("[data-reel-next]");
   const reelNextTitle = $("[data-reel-next-title]");
-  const musicPlayer = $("[data-music-player]");
-  const musicNow = $("[data-music-now]");
-  const musicList = $("[data-music-list]");
+  const portraitStudyIds = new Set(["creative-point-2", "creative-point-3", "soda-ad"]);
+  const portraitStudies = visualStudies.filter((study) => portraitStudyIds.has(study.id));
+  const landscapeStudies = visualStudies.filter((study) => !portraitStudyIds.has(study.id));
+  const renderStudy = (study, index) => `
+    <figure class="visual-study">
+      <div class="visual-study-frames${study.frameCount === 1 ? ' is-single' : ''}">
+        ${Array.from({ length: study.frameCount || 2 }, (_, frame) => `<img src="./assets/images/aesthetic/${study.id}-${frame + 1}.webp?v=20261006-gallery-layout" alt="${study.title} AI 视频截图 ${frame + 1}：${study.direction}" loading="lazy" decoding="async" />`).join('')}
+      </div>
+      <figcaption><span>${String(index + 1).padStart(2, "0")}</span><div><h4>${study.title}</h4><p>${study.direction}</p></div></figcaption>
+    </figure>`;
+  $("[data-visual-studies]").innerHTML = `
+    <div class="ai-stills-portrait" role="group" aria-label="竖幅视频截图">
+      ${portraitStudies.map(renderStudy).join('')}
+    </div>
+    <div class="ai-stills-landscape" role="group" aria-label="横幅与方幅视频截图">
+      ${landscapeStudies.map((study, index) => renderStudy(study, index + portraitStudies.length)).join('')}
+    </div>`;
+  reelPlayer.addEventListener("loadedmetadata", () => {
+    reelScreen.classList.toggle("is-portrait", reelPlayer.videoHeight > reelPlayer.videoWidth);
+    reelScreen.style.aspectRatio = `${reelPlayer.videoWidth} / ${reelPlayer.videoHeight}`;
+  });
 
   const barWork = works.find((item) => item.id === "bar-space");
   const mediaVideos = [
@@ -278,7 +297,6 @@ function renderMediaLab() {
   if (videoCount) videoCount.textContent = String(mediaVideos.length);
 
   let selectedVideoId = mediaVideos[0].id;
-  let selectedTrackId = musicTracks[0].id;
   let scrollAnimationId = 0;
   let switchToken = 0;
   let holdTimer = 0;
@@ -442,44 +460,13 @@ function renderMediaLab() {
     switchAndPlay(previousVideo.id);
   });
 
-  const setTrack = (id, { loadMedia = true } = {}) => {
-    const track = musicTracks.find((item) => item.id === id) || musicTracks[0];
-    selectedTrackId = track.id;
-    if (loadMedia) {
-      musicPlayer.pause();
-      musicPlayer.src = track.src;
-      musicPlayer.load();
-    }
-    musicPlayer.setAttribute("aria-label", `${track.title} AI 音乐作品`);
-    musicNow.innerHTML = `<span>NOW PLAYING / ${track.mood}</span><h4>${track.title}</h4><p>${track.duration}</p>`;
-    $$('[data-track-id]', musicList).forEach((button) => {
-      button.classList.toggle("is-active", button.dataset.trackId === track.id);
-      button.setAttribute("aria-pressed", String(button.dataset.trackId === track.id));
-    });
-  };
-
-  musicList.innerHTML = musicTracks
-    .map(
-      (track, index) => `
-        <button type="button" data-track-id="${track.id}" aria-pressed="false">
-          <span>${String(index + 1).padStart(2, "0")}</span><strong>${track.title}</strong><small>${track.mood}</small><i>${track.duration}</i>
-        </button>`
-    )
-    .join("");
-  musicList.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-track-id]");
-    if (button) setTrack(button.dataset.trackId);
-  });
-
   setVideo(selectedVideoId, { loadMedia: false });
-  setTrack(selectedTrackId, { loadMedia: false });
 
   const mediaSection = reelPlayer.closest(".media-lab");
   if (mediaSection) {
     const mediaObserver = new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting) return;
       setVideo(selectedVideoId);
-      setTrack(selectedTrackId);
       mediaObserver.disconnect();
     }, { rootMargin: "320px 0px", threshold: 0.01 });
     mediaObserver.observe(mediaSection);
