@@ -1176,6 +1176,20 @@ button {
   transition: opacity 0.28s ease, filter 0.28s ease;
 }
 
+/* Keep embedded mobile playback off the continuously animated compositor. */
+.wechat-mode .hero-noise,
+.wechat-mode .hero-motion-ui { display: none; }
+.wechat-mode .hero-media,
+.wechat-mode .hero-video,
+.wechat-mode .reel-screen,
+.wechat-mode .reel-screen video { transform: none !important; filter: none !important; clip-path: none !important; will-change: auto; }
+.wechat-mode .site-header,
+.wechat-mode .reel-step { backdrop-filter: none; -webkit-backdrop-filter: none; }
+.wechat-mode .reveal { opacity: 1; transform: none; }
+.wechat-mode .reel-switch-cover,
+.wechat-mode .reel-switch-cover img { transform: none; transition: opacity 0.15s ease; }
+.wechat-mode * { animation: none !important; }
+
 .reel-screen.is-portrait {
   width: min(100%, 430px, calc((100svh - 160px) * 0.5625));
 }

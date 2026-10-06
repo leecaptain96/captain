@@ -26,6 +26,7 @@ const compressibleExtensions = new Set([".html", ".css", ".js", ".json", ".svg"]
 
 function sendStream(response, filePath, streamOptions, gzip = false) {
   const stream = createReadStream(filePath, streamOptions);
+  response.on("close", () => stream.destroy());
   stream.on("error", () => {
     if (!response.headersSent) response.writeHead(500);
     response.end();
@@ -71,9 +72,10 @@ createServer(async (request, response) => {
         return;
       }
 
-      const start = match[1] ? Number(match[1]) : 0;
-      const end = match[2] ? Math.min(Number(match[2]), info.size - 1) : info.size - 1;
-      if (start > end || start >= info.size) {
+      const suffixLength = !match[1] && match[2] ? Number(match[2]) : null;
+      const start = suffixLength !== null ? Math.max(0, info.size - suffixLength) : Number(match[1]);
+      const end = suffixLength !== null ? info.size - 1 : match[2] ? Math.min(Number(match[2]), info.size - 1) : info.size - 1;
+      if ((!match[1] && !match[2]) || suffixLength === 0 || !Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start > end || start >= info.size) {
         response.writeHead(416, { ...baseHeaders, "Content-Range": `bytes */${info.size}` }).end();
         return;
       }

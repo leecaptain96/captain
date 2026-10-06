@@ -3,7 +3,42 @@ import { aiVideos, visualStudies, profile, skills, soundProject, works } from ".
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
-const mediaUrl = (src) => `${src}?v=20260701-seek1`;
+const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+const wechatMediaUrl = (src) => {
+  const match = src.match(/^\.\/assets\/videos\/(?:ai|accounts|real)\/([^?]+\.mp4)(?:\?.*)?$/);
+  return isWeChat && match ? `./assets/videos/wechat/${match[1]}` : src;
+};
+const mediaUrl = (src) => `${wechatMediaUrl(src)}?v=${isWeChat ? '20261006-wechat-buffer' : '20260701-seek1'}`;
+
+function initWechatMedia() {
+  if (!isWeChat) {
+    const heroVideo = $('.hero-video');
+    const heroSource = $('[data-hero-source]');
+    if (heroVideo && heroSource) {
+      heroSource.src = heroSource.dataset.src;
+      heroVideo.load();
+      heroVideo.play().catch(() => {});
+    }
+    return;
+  }
+  document.body.classList.add('wechat-mode');
+  $$('video').forEach((video) => {
+    video.setAttribute('webkit-playsinline', '');
+    video.setAttribute('x5-playsinline', 'true');
+    if (video.classList.contains('hero-video')) {
+      video.pause();
+      video.removeAttribute('autoplay');
+      video.preload = 'none';
+      $$('source', video).forEach(source => source.removeAttribute('src'));
+      video.load();
+    } else {
+      video.preload = 'none';
+      $$('source', video).forEach(source => {
+        source.src = mediaUrl(source.getAttribute('src'));
+      });
+    }
+  });
+}
 
 function hydrateProfile() {
   $("[data-profile-intro]").textContent = profile.introduction;
@@ -47,6 +82,7 @@ function initExclusiveMediaPlayback() {
 }
 
 function initHeroVariableProximity() {
+  if (isWeChat) return;
   const container = $(".hero-content");
   const title = $(".hero-title");
   if (!container || !title || !window.matchMedia("(pointer: fine)").matches) return;
@@ -139,6 +175,7 @@ function initHeroVariableProximity() {
 }
 
 function initHeroNoise() {
+  if (isWeChat) return;
   const canvas = $("[data-hero-noise]");
   const hero = $(".hero");
   if (!canvas || !hero) return;
@@ -205,6 +242,7 @@ function initHeroNoise() {
 }
 
 function initAmbientMotion() {
+  if (isWeChat) return;
   const media = $(".hero-media");
   if (media) {
     const ambientTween = gsapEngine.to(media, {
@@ -411,7 +449,7 @@ function renderMediaLab() {
       if (reelPlayer.getAttribute("src") !== nextSource) {
         reelPlayer.pause();
         reelPlayer.src = nextSource;
-        reelPlayer.load();
+        if (!isWeChat) reelPlayer.load();
       }
     }
     reelPlayer.poster = video.poster;
@@ -709,6 +747,7 @@ function injectKineticTitles() {
 }
 
 function initCinematicMotion() {
+  if (isWeChat) return false;
   const gsap = gsapEngine;
   const ScrollTrigger = ScrollTriggerPlugin;
   if (!gsap || !ScrollTrigger) return false;
@@ -832,6 +871,7 @@ function initCinematicMotion() {
 }
 
 function initRuntimeEfficiency() {
+  if (isWeChat) return;
   const heroVideo = $('.hero-video');
   const orbitStage = $('.orbit-stage');
   if (!heroVideo && !orbitStage) return;
@@ -862,6 +902,7 @@ function initRuntimeEfficiency() {
 }
 
 function initPointer() {
+  if (isWeChat) return;
   if (!window.matchMedia("(pointer: fine)").matches) return;
   const cursor = $(".cursor");
   if (!cursor) return;
@@ -881,6 +922,7 @@ function initPointer() {
 }
 
 function initHeroParallax() {
+  if (isWeChat) return;
   if (document.body.classList.contains('gsap-active')) return;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const media = $(".hero-media video, .hero-media img");
@@ -896,6 +938,7 @@ function initHeroParallax() {
   );
 }
 
+initWechatMedia();
 hydrateProfile();
 hydrateSoundProject();
 renderMediaLab();
