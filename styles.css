@@ -1571,7 +1571,7 @@ button {
 .reel-list button.is-active { border-color: var(--acid); }
 
 .reel-list button.is-active::after {
-  content: "当前播放";
+  content: attr(data-playback-status);
   position: absolute;
   top: 10px;
   right: 10px;
@@ -2492,9 +2492,9 @@ button {
   .reel-screen { min-height: 0; }
   .music-deck { grid-template-columns: 1fr; }
   .about-grid { grid-template-columns: minmax(480px, 1.25fr) minmax(220px, 0.65fr); }
-  .about-aside { grid-column: 2; display: grid; grid-template-columns: 1fr auto; gap: 30px; }
+  .about-aside { grid-column: 2; display: block; min-width: 0; }
   .about-aside .aside-label { grid-column: 1 / -1; }
-  .about-aside .signature { margin: 0; }
+  .about-aside .signature { margin-top: 32px; }
   .skills-layout { grid-template-columns: minmax(260px, 0.7fr) 1.4fr; gap: 70px; }
   .skill-item { grid-template-columns: 42px 1fr 0.9fr 20px; }
   .contact-grid { grid-template-columns: repeat(2, 1fr); }

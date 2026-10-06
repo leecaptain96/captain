@@ -3,9 +3,9 @@ export const profile = {
   romanizedName: "LI JIAMIN",
   title: "AI Director · Creative Filmmaker",
   introduction:
-    "我是一名兼具幕后制作与出镜表达能力的内容创作者，覆盖编剧、导演、摄影、剪辑与音乐制作。",
+    "我是一名内容创作者，从创意和剧本出发，用拍摄、剪辑与声音制作完成作品，也有真人出镜和个人账号运营经验。",
   secondParagraph:
-    "从音乐达人的录音混音，到品牌短视频的脚本、拍摄剪辑，再到电商直播与个人账号运营，我积累了制作、表达和传播三端的实践。现在把 AI 影像融入创作流程，结合镜头设计、真实拍摄与声音制作完成内容，也能参与产品话术、视频分发、数据分析和甲方沟通。",
+    "从音乐达人的录音混音，到品牌短视频的脚本、拍摄剪辑，再到电商直播与个人账号运营，我积累了制作、表达和传播三端的实践。现在把 AI 影像融入创作流程，结合镜头设计、真实拍摄与声音制作完成内容，也能参与产品话术、视频分发与数据分析。",
   capabilities: [
     "创意策划",
     "剧本创作",
@@ -27,7 +27,7 @@ export const profile = {
     email: "479669907@qq.com",
     phone: "18759667939",
     wechat: "papaioo",
-    douyin: "作品账号 / 待更新"
+    douyin: "查看个人账号作品与数据"
   }
 };
 
@@ -373,5 +373,5 @@ export const skills = [
   { number: "06", title: "后期剪辑与包装", english: "EDIT & FINISH", detail: "剪辑、调色、字幕包装与节奏控制的一体化执行。" },
   { number: "07", title: "录音混音与 AI 音乐", english: "RECORDING & MIX", detail: "有音乐达人录音混音、微电影同期与后期声音制作经验；熟悉 Cubase、FabFilter、Waves 等插件及软音源，会使用 AI 制作音乐。" },
   { number: "08", title: "电商内容与直播表达", english: "COMMERCE & LIVE", detail: "做过电商产品拍摄、剪辑包装与内容分发，也有 Shopee 直播讲解、产品话术整理、选品协助和客户维护经验。" },
-  { number: "09", title: "快速学习与团队协作", english: "WORKFLOW & COLLABORATION", detail: "把新工具融入制作流程，有对接甲方与跨团队协作经验，能够结合制作任务与内容反馈调整执行。" }
+  { number: "09", title: "快速学习与团队协作", english: "WORKFLOW & COLLABORATION", detail: "把新工具融入制作流程，有跨团队协作经验，能够结合制作任务与内容反馈调整执行。" }
 ];

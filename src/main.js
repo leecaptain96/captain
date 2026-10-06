@@ -1,5 +1,5 @@
 import { gsap as gsapEngine, ScrollTrigger as ScrollTriggerPlugin } from "../assets/vendor/gsap-bundle.min.js?v=20260630-perf";
-import { aiVideos, visualStudies, profile, skills, soundProject, works } from "../data/portfolio.js?v=20261006-profile-strengths";
+import { aiVideos, visualStudies, profile, skills, soundProject, works } from "../data/portfolio.js?v=20261006-introduction";
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
@@ -302,27 +302,40 @@ function renderMediaLab() {
   let holdTimer = 0;
   let isFastPlaying = false;
   let suppressNextClick = false;
+  let normalPlaybackRate = 1;
+  let holdOrigin = null;
   const stopFastPlayback = () => {
     window.clearTimeout(holdTimer);
     holdTimer = 0;
     if (!isFastPlaying) return;
-    reelPlayer.playbackRate = 1;
+    reelPlayer.playbackRate = normalPlaybackRate;
     isFastPlaying = false;
     reelSpeedHint?.classList.remove("is-visible");
     window.setTimeout(() => { suppressNextClick = false; }, 500);
   };
   reelPlayer.addEventListener("pointerdown", (event) => {
+    if (!event.isPrimary || event.button !== 0) return;
     const bounds = reelPlayer.getBoundingClientRect();
     // Reserve the native control strip for timeline dragging and player buttons.
     if (event.clientY > bounds.bottom - 64 || reelPlayer.paused) return;
     window.clearTimeout(holdTimer);
+    holdOrigin = { x: event.clientX, y: event.clientY };
     holdTimer = window.setTimeout(() => {
+      normalPlaybackRate = reelPlayer.playbackRate;
       reelPlayer.playbackRate = 2;
       isFastPlaying = true;
       suppressNextClick = true;
       reelSpeedHint?.classList.add("is-visible");
     }, 420);
   });
+  reelPlayer.addEventListener("pointermove", (event) => {
+    if (holdOrigin && Math.hypot(event.clientX - holdOrigin.x, event.clientY - holdOrigin.y) > 12) {
+      stopFastPlayback();
+      holdOrigin = null;
+    }
+  }, { passive: true });
+  window.addEventListener("pointerup", stopFastPlayback, { passive: true });
+  window.addEventListener("blur", stopFastPlayback);
   ["pointerup", "pointercancel", "pointerleave"].forEach((eventName) => {
     reelPlayer.addEventListener(eventName, stopFastPlayback);
   });
@@ -383,6 +396,9 @@ function renderMediaLab() {
   const setVideo = (id, { loadMedia = true } = {}) => {
     const video = mediaVideos.find((item) => item.id === id) || mediaVideos[0];
     selectedVideoId = video.id;
+    const portrait = video.id === "drink-tvc";
+    reelScreen.classList.toggle("is-portrait", portrait);
+    reelScreen.style.aspectRatio = portrait ? "9 / 16" : "16 / 9";
     if (loadMedia) {
       stopFastPlayback();
       const nextSource = mediaUrl(video.src);
@@ -394,7 +410,7 @@ function renderMediaLab() {
     }
     reelPlayer.poster = video.poster;
     reelPlayer.setAttribute("aria-label", `${video.title}视频作品`);
-    reelCode.textContent = `${video.label} / LOCAL PREVIEW`;
+    reelCode.textContent = video.label;
     reelNow.innerHTML = `<span>${video.category}</span><h3>${video.title}</h3><p>${video.duration} / ${video.label}</p>`;
     const currentIndex = mediaVideos.findIndex((item) => item.id === video.id);
     const previousVideo = mediaVideos[(currentIndex - 1 + mediaVideos.length) % mediaVideos.length];
@@ -461,6 +477,15 @@ function renderMediaLab() {
   });
 
   setVideo(selectedVideoId, { loadMedia: false });
+  const updatePlaybackStatus = () => {
+    $$('[data-video-id]', reelList).forEach((button) => {
+      const selected = button.dataset.videoId === selectedVideoId;
+      const status = !reelPlayer.paused && !reelPlayer.ended ? "正在播放" : reelPlayer.ended ? "播放结束" : reelPlayer.currentTime > 0 ? "已暂停" : "已选择";
+      button.dataset.playbackStatus = selected ? status : "";
+    });
+  };
+  ["play", "pause", "ended", "loadstart", "loadedmetadata"].forEach((name) => reelPlayer.addEventListener(name, updatePlaybackStatus));
+  updatePlaybackStatus();
 
   const mediaSection = reelPlayer.closest(".media-lab");
   if (mediaSection) {
