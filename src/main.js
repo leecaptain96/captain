@@ -1,5 +1,5 @@
 import { gsap as gsapEngine, ScrollTrigger as ScrollTriggerPlugin } from "../assets/vendor/gsap-bundle.min.js?v=20260630-perf";
-import { aiVideos, visualStudies, profile, skills, soundProject, works } from "../data/portfolio.js?v=20261006-video-order";
+import { aiVideos, visualStudies, profile, skills, soundProject, works } from "../data/portfolio.js?v=20261014-drama-stills";
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
@@ -440,7 +440,7 @@ function renderMediaLab() {
   const setVideo = (id, { loadMedia = true } = {}) => {
     const video = mediaVideos.find((item) => item.id === id) || mediaVideos[0];
     selectedVideoId = video.id;
-    const portrait = video.id === "drink-tvc";
+    const portrait = video.aspectRatio === "9 / 16" || video.id === "drink-tvc";
     reelScreen.classList.toggle("is-portrait", portrait);
     reelScreen.style.aspectRatio = portrait ? "9 / 16" : "16 / 9";
     if (loadMedia) {
