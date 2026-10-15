@@ -325,13 +325,14 @@ export const works = [
 export const featuredWorkIds = ["fall", "dark-dragon", "anime-fight"];
 
 export const aiVideos = [
-  { id: "live-action-fight", title: "真人打斗", category: "AI 真人动作", duration: "00:30", src: "./assets/videos/ai/live-action-fight.mp4", poster: "./assets/images/real/poster-live-action-fight.webp" },
+  { id: "live-action-fight", title: "剧情", category: "AI 真人动作", duration: "00:30", src: "./assets/videos/ai/live-action-fight.mp4", poster: "./assets/images/real/poster-live-action-fight.webp" },
   { id: "watch-strap-ad", title: "表带广告", category: "AI 产品广告", duration: "00:15", aspectRatio: "9 / 16", src: "./assets/videos/ai/watch-strap-ad.mp4", poster: "./assets/images/real/poster-watch-strap-ad.webp" },
+  { id: "clothing-creative", title: "衣服创意", category: "AI 时装创意", duration: "00:30", src: "./assets/videos/ai/clothing-creative.mp4", poster: "./assets/images/real/poster-clothing-creative.webp" },
   { id: "drink-tvc", title: "饮品 TVC", category: "AI 饮品广告", duration: "00:30", src: "./assets/videos/ai/drink-tvc.mp4", poster: "./assets/images/aesthetic/drink-tvc-1.webp" },
   { id: "la-monster", title: "洛杉矶怪兽", category: "AI 城市科幻", duration: "00:27", src: "./assets/videos/ai/la-monster.mp4", poster: "./assets/images/real/poster-la-monster.jpg" },
   { id: "white-rose", title: "剧情", category: "AI 剧情叙事", duration: "01:03", src: "./assets/videos/ai/white-rose.mp4", poster: "./assets/images/real/poster-white-rose.jpg" },
-  { id: "anime-fight", title: "日漫打斗", category: "AI 动漫", duration: "00:30", src: "./assets/videos/ai/anime-fight.mp4", poster: "./assets/images/real/poster-anime-fight.jpg" },
-  { id: "dark-dragon", title: "动漫", category: "AI 动漫", duration: "00:42", src: "./assets/videos/ai/dark-dragon.mp4", poster: "./assets/images/real/poster-dark-dragon.jpg" },
+  { id: "anime-fight", title: "打斗", category: "AI 动漫", duration: "00:30", src: "./assets/videos/ai/anime-fight.mp4", poster: "./assets/images/real/poster-anime-fight.jpg" },
+  { id: "dark-dragon", title: "龙战士", category: "AI 动漫", duration: "00:42", src: "./assets/videos/ai/dark-dragon.mp4", poster: "./assets/images/real/poster-dark-dragon.jpg" },
   { id: "white-robe", title: "白袍", category: "AI 动漫", duration: "00:21", src: "./assets/videos/ai/white-robe.mp4", poster: "./assets/images/real/poster-white-robe.jpg" },
   { id: "foundation", title: "粉底液电商广告", category: "AI 电商", duration: "00:15", src: "./assets/videos/ai/foundation.mp4", poster: "./assets/images/real/poster-foundation.jpg" },
   { id: "soda-ad", title: "汽水广告", category: "AI 饮料广告", duration: "00:15", src: "./assets/videos/ai/soda-ad.mp4", poster: "./assets/images/real/poster-soda-ad.jpg" },
@@ -362,6 +363,7 @@ export const visualStudies = [
   { id: "hamster", title: "动漫剧情", direction: "拟人角色 · 复古服饰与奇幻空间" },
   { id: "korean-drama", title: "韩剧剧情", direction: "韩剧氛围 · 雨夜光影与人物互动" },
   { id: "live-drama", title: "真人短剧", direction: "短剧叙事 · 冷暖光影与雨夜人物关系" },
+  { id: "free-solitude", title: "自由的孤独", direction: "电影氛围 · 海岸留白与木屋窗景" },
   { id: "dream-study", title: "意识流", direction: "梦境视觉 · 超现实意象与冷色空间" },
   { id: "mystic-forest", title: "神秘森林", direction: "奇幻美术 · 森林层次与冷暖光影", frameCount: 1 },
   { id: "live-ad-study", title: "真人广告类", direction: "广告影像 · 山野场景与人物质感" }

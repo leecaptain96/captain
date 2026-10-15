@@ -9,7 +9,7 @@ const { chromium } = require('C:/Users/Administrator/.cache/codex-runtimes/codex
       page.on('pageerror', error => errors.push(error.message));
       await page.goto('http://127.0.0.1:4173/', { waitUntil: 'load' });
       await page.locator('[data-reel-player]').scrollIntoViewIfNeeded();
-      for (const id of ['live-action-fight', 'watch-strap-ad']) {
+      for (const id of ['clothing-creative', 'live-action-fight', 'watch-strap-ad']) {
         await page.locator(`[data-video-id="${id}"]`).click();
         await page.waitForFunction(() => { const v = document.querySelector('[data-reel-player]'); return v.currentTime > 0 && !v.paused; });
         const state = await page.evaluate(() => {
